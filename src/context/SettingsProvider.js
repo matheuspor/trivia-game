@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchCategories } from '../services/apiHelper';
 import SettingsContext from './SettingsContext';
 
 function SettingsProvider({ children }) {
@@ -15,13 +16,14 @@ function SettingsProvider({ children }) {
     setSettings(newSetting);
   }
 
-  function setNewCategories(NewValue) {
-    setCategories(NewValue);
-  }
+  useEffect(() => {
+    fetchCategories()
+      .then((res) => setCategories(res))
+  }, [])
 
   return (
     <SettingsContext.Provider
-      value={ { settings, setNewSetting, setNewCategories, categories } }
+      value={ { settings, setNewSetting, setCategories, categories } }
     >
       {children}
     </SettingsContext.Provider>

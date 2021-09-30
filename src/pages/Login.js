@@ -6,7 +6,7 @@ import { useHistory } from 'react-router';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
-import { fetchCategories, fetchPlayerImg, fetchPlayerToken,
+import { fetchPlayerImg, fetchPlayerToken,
   fetchQuestions } from '../services/apiHelper';
 import SettingsContext from '../context/SettingsContext';
 import makeInput from '../components/input';
@@ -15,7 +15,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 function Login({ sendToken, sendPlayer }) {
-  const { settings, setNewCategories } = useContext(SettingsContext);
+  const { settings } = useContext(SettingsContext);
   const history = useHistory();
 
   const [user, setUser] = useState({
@@ -31,9 +31,7 @@ function Login({ sendToken, sendPlayer }) {
   });
 
   async function redirectSettings() {
-    const response = await fetchCategories();
-    setNewCategories(response);
-    history.push('/settings');
+    history.push('/settings')    
   }
 
   function handleChange({ target }) {

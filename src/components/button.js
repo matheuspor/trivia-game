@@ -1,7 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
-export default function makeButton(name, user, handler, avatar) {
+export default function makeButton(name, user, handler) {
   const notify = () => {
     toast.loading('Buscando Perguntas!', {
       position: "bottom-center",
