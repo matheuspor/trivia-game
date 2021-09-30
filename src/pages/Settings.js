@@ -29,7 +29,7 @@ function Settings() {
 
   function redirect() {
     setNewSetting(settings);
-    history.push('/');
+    history.push('/trivia-game');
   }
 
   return (
