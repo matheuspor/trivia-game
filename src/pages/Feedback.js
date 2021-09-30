@@ -18,7 +18,7 @@ export default class Feedback extends Component {
         <p data-testid="feedback-total-score">{player.score}</p>
         <p data-testid="feedback-total-question">{player.assertions}</p>
         {player.assertions < NUMBER ? 'Podia ser melhor...' : 'Mandou bem!'}
-        <Link to="/">
+        <Link to="/trivia-game">
           <button type="button" data-testid="btn-play-again">Jogar novamente</button>
         </Link>
         <Link to="/ranking">
