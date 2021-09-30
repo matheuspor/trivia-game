@@ -11,6 +11,8 @@ import { fetchCategories, fetchPlayerImg, fetchPlayerToken,
 import SettingsContext from '../context/SettingsContext';
 import makeInput from '../components/input';
 import makeButton from '../components/button';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 function Login({ sendToken, sendPlayer }) {
   const { settings, setNewCategories } = useContext(SettingsContext);
@@ -50,6 +52,7 @@ function Login({ sendToken, sendPlayer }) {
     setUser({ ...user, avatar: playerAvatar.url });
   }
 
+
   return (
     <form className="App-header" onSubmit={ handleSubmit }>
       <img src={ logo } className="App-logo" alt="logo" />
@@ -57,6 +60,7 @@ function Login({ sendToken, sendPlayer }) {
       {makeInput('nome', handleChange)}
       {makeInput('email', handleChange)}
       {makeButton('Jogar', user)}
+      <ToastContainer />
       {makeButton('Configurações', user, redirectSettings)}
     </form>
   );

@@ -27,7 +27,7 @@ export default class Ranking extends React.Component {
         <button
           type="button"
           data-testid="btn-go-home"
-          onClick={ () => history.push('/') }
+          onClick={ () => history.push('/trivia-game') }
         >
           Play Again
         </button>
