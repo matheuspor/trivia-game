@@ -14,13 +14,13 @@ import makeButton from '../components/button';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
-function Login({ sendToken, sendPlayer }) {
+function Login({ sendToken, sendPlayer, player }) {
   const { settings } = useContext(SettingsContext);
   const history = useHistory();
 
   const [user, setUser] = useState({
-    nome: '',
-    email: '',
+    nome: player.nome,
+    email: player.email,
   });
 
   useEffect(() => {
@@ -55,8 +55,8 @@ function Login({ sendToken, sendPlayer }) {
     <form className="App-header" onSubmit={ handleSubmit }>
       <img src={ logo } className="App-logo" alt="logo" />
       <p>SUA VEZ</p>
-      {makeInput('nome', handleChange)}
-      {makeInput('email', handleChange)}
+      {makeInput('nome', handleChange, user.nome)}
+      {makeInput('email', handleChange, user.email)}
       {makeButton('Jogar', user)}
       <ToastContainer />
       {makeButton('Configurações', user, redirectSettings)}
@@ -64,12 +64,16 @@ function Login({ sendToken, sendPlayer }) {
   );
 }
 
+const mapStateToProps = ({user: { player }}) => ({
+  player: player,
+})
+
 const mapDispatchToProps = (dispatch) => ({
   sendToken: (payload) => dispatch(setPlayerQuestions(payload)),
   sendPlayer: (payload) => dispatch(setPlayerInfo(payload)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   history: PropTypes.shape({

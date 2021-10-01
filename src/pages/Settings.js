@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import makeSelect from '../components/select';
@@ -45,13 +44,5 @@ function Settings() {
     </>
   );
 }
-
-Settings.propTypes = {
-  location: PropTypes.shape({
-    categories: PropTypes.shape({
-      trivia_categories: PropTypes.arrayOf(PropTypes.object),
-    }).isRequired,
-  }).isRequired,
-};
 
 export default Settings;

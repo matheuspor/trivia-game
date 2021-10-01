@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function makeInput(name, handler) {
+export default function makeInput(name, handler, value) {
   return (
     <label htmlFor={ name }>
       {`${name[0].toUpperCase()}${name.substr(1)}:`}
@@ -10,6 +10,7 @@ export default function makeInput(name, handler) {
         id={ name }
         data-testid={ name === 'email' ? 'input-gravatar-email' : 'input-player-name' }
         onChange={ handler }
+        value={ value }
       />
     </label>
   );

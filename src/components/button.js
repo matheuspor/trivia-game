@@ -5,7 +5,7 @@ export default function makeButton(name, user, handler) {
   const re = /.+@.+\.[A-Za-z]+$/;
   const notify = () => {
     toast.loading('Buscando Perguntas!', {
-      position: "bottom-center",
+      position: "bottom-left",
       });
   }
     
