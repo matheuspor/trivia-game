@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
+import { ToastContainer } from 'react-toastify';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
@@ -11,8 +12,7 @@ import { fetchPlayerImg, fetchPlayerToken,
 import SettingsContext from '../context/SettingsContext';
 import makeInput from '../components/input';
 import makeButton from '../components/button';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login({ sendToken, sendPlayer, player }) {
   const { settings } = useContext(SettingsContext);
@@ -31,7 +31,7 @@ function Login({ sendToken, sendPlayer, player }) {
   });
 
   async function redirectSettings() {
-    history.push('/settings')    
+    history.push('/settings');
   }
 
   function handleChange({ target }) {
@@ -50,7 +50,6 @@ function Login({ sendToken, sendPlayer, player }) {
     setUser({ ...user, avatar: playerAvatar.url });
   }
 
-
   return (
     <form className="App-header" onSubmit={ handleSubmit }>
       <img src={ logo } className="App-logo" alt="logo" />
@@ -64,9 +63,9 @@ function Login({ sendToken, sendPlayer, player }) {
   );
 }
 
-const mapStateToProps = ({user: { player }}) => ({
-  player: player,
-})
+const mapStateToProps = ({ user: { player } }) => ({
+  player,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   sendToken: (payload) => dispatch(setPlayerQuestions(payload)),
@@ -78,6 +77,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login);
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
+  }).isRequired,
+  player: PropTypes.shape({
+    email: PropTypes.string,
+    nome: PropTypes.string,
   }).isRequired,
   sendPlayer: PropTypes.func.isRequired,
   sendToken: PropTypes.func.isRequired,

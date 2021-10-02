@@ -18,8 +18,8 @@ function SettingsProvider({ children }) {
 
   useEffect(() => {
     fetchCategories()
-      .then((res) => setCategories(res))
-  }, [])
+      .then((res) => setCategories(res));
+  }, []);
 
   return (
     <SettingsContext.Provider

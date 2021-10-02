@@ -37,25 +37,6 @@ export class Game extends React.Component {
     } else localStorage.setItem('ranking', JSON.stringify([player]));
   }
 
-  setTimer() {
-    const ONE_SECOND = 1000;
-    this.setState({ timer: 30 });
-    const countdown = setInterval(() => {
-      this.setState(
-        (prevState) => ({
-          timer: prevState.timer - 1,
-        }),
-        () => {
-          const { timer, clicked } = this.state;
-          if (timer <= 0 || clicked) {
-            clearInterval(countdown);
-            this.setState({ clicked: true });
-          }
-        },
-      );
-    }, ONE_SECOND);
-  }
-
   handleClick({ target }) {
     const { timer, questionNumber } = this.state;
     const { questions } = this.props;
@@ -84,6 +65,25 @@ export class Game extends React.Component {
         this.updateLocalStorage();
       },
     );
+  }
+
+  setTimer() {
+    const ONE_SECOND = 1000;
+    this.setState({ timer: 30 });
+    const countdown = setInterval(() => {
+      this.setState(
+        (prevState) => ({
+          timer: prevState.timer - 1,
+        }),
+        () => {
+          const { timer, clicked } = this.state;
+          if (timer <= 0 || clicked) {
+            clearInterval(countdown);
+            this.setState({ clicked: true });
+          }
+        },
+      );
+    }, ONE_SECOND);
   }
 
   updateLocalStorage() {
