@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-export default function makeInput(name, handler, value) {
+export default function Input({ name, handler, value }) {
   return (
     <label htmlFor={ name }>
       {`${name[0].toUpperCase()}${name.substr(1)}:`}
@@ -15,3 +16,9 @@ export default function makeInput(name, handler, value) {
     </label>
   );
 }
+
+Input.propTypes = {
+  handler: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+};

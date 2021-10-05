@@ -1,22 +1,26 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { toast } from 'react-toastify';
 
-export default function makeButton(name, user, handler) {
+export default function Button({ name, user, handler }) {
   const re = /.+@.+\.[A-Za-z]+$/;
-  const notify = () => {
-    toast.loading('Buscando Perguntas!', {
-      position: 'bottom-left',
-    });
-  };
 
   return (
     <button
       type={ name === 'Jogar' ? 'submit' : 'button' }
       data-testid={ name === 'Jogar' ? 'btn-play' : 'btn-settings' }
       disabled={ name === 'Jogar' ? !re.test(user.email) || !user.nome : false }
-      onClick={ name === 'Jogar' ? notify : () => handler() }
+      onClick={ handler }
     >
       {name}
     </button>
   );
 }
+
+Button.propTypes = {
+  handler: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    nome: PropTypes.string,
+  }).isRequired,
+};
