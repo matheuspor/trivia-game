@@ -12,10 +12,10 @@ export default function App() {
     <SettingsProvider>
       <Switch>
         <Route exact path="/trivia-game" component={ Login } />
-        <Route path="/game" component={ game } />
-        <Route path="/settings" component={ settings } />
-        <Route path="/feedback" component={ Feedback } />
-        <Route path="/ranking" component={ Ranking } />
+        <Route path="/trivia-game/game" component={ game } />
+        <Route path="/trivia-game/settings" component={ settings } />
+        <Route path="/trivia-game/feedback" component={ Feedback } />
+        <Route path="/trivia-game/ranking" component={ Ranking } />
       </Switch>
     </SettingsProvider>
   );

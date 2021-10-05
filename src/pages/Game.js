@@ -160,7 +160,7 @@ export class Game extends React.Component {
         },
       );
     } else {
-      history.push('/feedback');
+      history.push('/trivia-game/feedback');
     }
   }
 

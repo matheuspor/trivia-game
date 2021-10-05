@@ -26,12 +26,12 @@ function Login({ sendToken, sendPlayer, player }) {
   useEffect(() => {
     if (user.avatar) {
       sendPlayer(user);
-      history.push('/game');
+      history.push('/trivia-game/game');
     }
   });
 
   async function redirectSettings() {
-    history.push('/settings');
+    history.push('/trivia-game/settings');
   }
 
   function handleChange({ target }) {
