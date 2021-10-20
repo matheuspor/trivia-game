@@ -17,15 +17,6 @@ export default function PageButton({ name, user, handler }) {
     >
       {name}
     </Button>
-  //   <Button
-  //   type="submit"
-  //   fullWidth
-  //   variant="contained"
-  //   sx={ { mt: 3, mb: 2 } }
-  //   color="secondary"
-  // >
-  //   Sign In
-  // </Button>
   );
 }
 
