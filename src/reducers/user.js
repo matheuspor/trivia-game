@@ -2,7 +2,7 @@ import { SET_PLAYER_INFO, SET_QUESTIONS, SET_SETTINGS } from '../actions';
 
 const INITIAL_STATE = {
   player: {
-    nome: '',
+    name: '',
     email: '',
   },
   questions: '',

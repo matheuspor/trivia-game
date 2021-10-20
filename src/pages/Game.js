@@ -92,7 +92,7 @@ export class Game extends React.Component {
 
     const localStorageObj = {
       player: {
-        name: player.nome,
+        name: player.name,
         assertions: PlayerAssertions,
         score: PlayerScore,
         gravatarEmail: player.email,
@@ -178,7 +178,7 @@ export class Game extends React.Component {
           />
           <h4 data-testid="header-player-name">
             Nome:
-            {player.nome}
+            {player.name}
             {' '}
             <span data-testid="header-score">
               Score:
@@ -216,7 +216,7 @@ Game.propTypes = {
   player: PropTypes.shape({
     avatar: PropTypes.string,
     email: PropTypes.string,
-    nome: PropTypes.string,
+    name: PropTypes.string,
   }).isRequired,
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
