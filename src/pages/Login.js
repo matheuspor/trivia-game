@@ -3,21 +3,36 @@ import React, { useContext, useEffect, useState } from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Container, CssBaseline,
+  Typography } from '@material-ui/core';
+import { Box } from '@material-ui/system';
+// import { ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
+// import theme from '../theme';
 import logo from '../trivia.png';
 import { fetchPlayerImg, fetchPlayerToken,
   fetchQuestions } from '../services/apiHelper';
 import SettingsContext from '../context/SettingsContext';
-import Button from '../components/Button';
-import Input from '../components/Input';
+import PageButton from '../components/PageButton';
+import PageInput from '../components/PageInput';
+// import Input from '../components/Input';
 
+const useStyles = makeStyles(() => ({
+  logo: {
+    height: '6em',
+    marginBottom: '1em',
+    animation: 'shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both',
+  },
+}));
 function Login({ sendQuestions, sendPlayer, player }) {
   const { settings } = useContext(SettingsContext);
   const history = useHistory();
+  const classes = useStyles();
 
   const [user, setUser] = useState({
-    nome: player.nome,
+    name: player.name,
     email: player.email,
   });
 
@@ -46,21 +61,32 @@ function Login({ sendQuestions, sendPlayer, player }) {
   }
 
   return (
-    <form
-      className="App-header"
-      onSubmit={ handleSubmit }
-    >
-      <img src={ logo } className="App-logo" alt="logo" />
-      <p>SUA VEZ</p>
-      <Input name="nome" value={ user.nome } handler={ handleChange } />
-      <Input name="email" value={ user.email } handler={ handleChange } />
-      <Button name="Jogar" user={ user } />
-      <Button
-        name="Configurações"
-        user={ user }
-        handler={ () => history.push('/trivia-game/settings') }
-      />
-    </form>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={ {
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        } }
+      >
+        <img src={ logo } className={ classes.logo } alt="logo" />
+        <Typography component="h1" variant="h5">
+          Your Turn!
+        </Typography>
+        <Box component="form" onSubmit={ handleSubmit } noValidate sx={ { mt: 1 } }>
+          <PageInput name="name" value={ user.name } handler={ handleChange } />
+          <PageInput name="email" value={ user.email } handler={ handleChange } />
+          <PageButton name="Jogar" user={ user } />
+          <PageButton
+            name="Configurações"
+            user={ user }
+            handler={ () => history.push('/trivia-game/settings') }
+          />
+        </Box>
+      </Box>
+    </Container>
   );
 }
 
@@ -81,7 +107,7 @@ Login.propTypes = {
   }).isRequired,
   player: PropTypes.shape({
     email: PropTypes.string,
-    nome: PropTypes.string,
+    name: PropTypes.string,
   }).isRequired,
   sendPlayer: PropTypes.func.isRequired,
   sendQuestions: PropTypes.func.isRequired,
