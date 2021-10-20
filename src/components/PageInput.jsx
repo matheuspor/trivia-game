@@ -12,7 +12,7 @@ export default function PageInput({ name, handler, value }) {
       id={ `${name[0].toUpperCase()}${name.substr(1)}` }
       label={ `${name[0].toUpperCase()}${name.substr(1)}` }
       name={ name }
-      autoComplete="email"
+      autoComplete={ name }
       onChange={ handler }
       value={ value }
     />
