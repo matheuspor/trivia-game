@@ -6,18 +6,15 @@ import { useHistory } from 'react-router';
 import { Container, CssBaseline,
   Typography } from '@material-ui/core';
 import { Box } from '@material-ui/system';
-// import { ThemeProvider } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
-// import theme from '../theme';
 import logo from '../trivia.png';
 import { fetchPlayerImg, fetchPlayerToken,
   fetchQuestions } from '../services/apiHelper';
 import SettingsContext from '../context/SettingsContext';
 import PageButton from '../components/PageButton';
 import PageInput from '../components/PageInput';
-// import Input from '../components/Input';
 
 const useStyles = makeStyles(() => ({
   logo: {
