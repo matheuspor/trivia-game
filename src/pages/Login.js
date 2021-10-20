@@ -75,9 +75,9 @@ function Login({ sendQuestions, sendPlayer, player }) {
         <Box component="form" onSubmit={ handleSubmit } noValidate sx={ { mt: 1 } }>
           <PageInput name="name" value={ user.name } handler={ handleChange } />
           <PageInput name="email" value={ user.email } handler={ handleChange } />
-          <PageButton name="Jogar" user={ user } />
+          <PageButton name="Play" user={ user } />
           <PageButton
-            name="Configurações"
+            name="Settings"
             user={ user }
             handler={ () => history.push('/trivia-game/settings') }
           />

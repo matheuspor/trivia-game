@@ -1,22 +1,24 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { Button } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Button, CircularProgress } from '@material-ui/core';
 
 export default function PageButton({ name, user, handler }) {
   const re = /.+@.+\.[A-Za-z]+$/;
+  const [clicked, setClick] = useState(false);
 
   return (
-    <Button
-      type={ name === 'Jogar' ? 'submit' : 'button' }
-      fullWidth
-      disabled={ name === 'Jogar' ? !re.test(user.email) || !user.name : false }
-      onClick={ handler }
-      variant="contained"
-      sx={ { mt: 3, mb: 2 } }
-      color={ name === 'Jogar' ? 'primary' : 'secondary' }
-    >
-      {name}
-    </Button>
+    (
+      <Button
+        type={ name === 'Play' ? 'submit' : 'button' }
+        fullWidth
+        disabled={ name === 'Play' ? !re.test(user.email) || !user.name : false }
+        onClick={ () => (name === 'Play' ? setClick(true) : handler()) }
+        variant="contained"
+        sx={ { mt: 3, mb: 2 } }
+        color={ name === 'Play' ? 'primary' : 'secondary' }
+      >
+        {clicked ? <CircularProgress color="secondary" /> : name}
+      </Button>)
   );
 }
 
