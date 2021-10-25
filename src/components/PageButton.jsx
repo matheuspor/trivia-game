@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Button, CircularProgress } from '@material-ui/core';
 
 export default function PageButton({ name, user, handler }) {
-  // const re = /.+@.+\.[A-Za-z]+$/;
   const [clicked, setClick] = useState(false);
 
   return (
