@@ -1,4 +1,4 @@
-import { TextField } from '@material-ui/core';
+import { Link, TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -7,14 +7,19 @@ export default function PageInput({ name, handler, value }) {
     <TextField
       type={ name === 'email' ? 'email' : 'text' }
       margin="normal"
-      required
+      required={ name === 'name' }
       fullWidth
       id={ `${name[0].toUpperCase()}${name.substr(1)}` }
-      label={ `${name[0].toUpperCase()}${name.substr(1)}` }
+      label={ name === 'email' ? 'Gravatar email:' : 'Name:' }
       name={ name }
       autoComplete={ name }
       onChange={ handler }
       value={ value }
+      helperText={ name === 'email' && (
+        <Link href="https://en.gravatar.com/" target="_blank" underline="always">
+          Gravatar
+        </Link>
+      ) }
     />
   );
 }

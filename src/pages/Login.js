@@ -3,8 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Container, CssBaseline,
-  Typography } from '@material-ui/core';
+import { Container, CssBaseline } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 import { makeStyles } from '@material-ui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
@@ -15,10 +14,14 @@ import { fetchPlayerImg, fetchPlayerToken,
 import SettingsContext from '../context/SettingsContext';
 import PageButton from '../components/PageButton';
 import PageInput from '../components/PageInput';
+import theme from '../theme';
 
 const useStyles = makeStyles(() => ({
   logo: {
     height: '6em',
+    [theme.breakpoints.up('sm')]: {
+      height: '9em',
+    },
     marginBottom: '1em',
     animation: 'shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both',
   },
@@ -69,9 +72,9 @@ function Login({ sendQuestions, sendPlayer, player }) {
         } }
       >
         <img src={ logo } className={ classes.logo } alt="logo" />
-        <Typography component="h1" variant="h5">
+        {/* <Typography component="h1" variant="h5">
           Your Turn!
-        </Typography>
+        </Typography> */}
         <Box component="form" onSubmit={ handleSubmit } noValidate sx={ { mt: 1 } }>
           <PageInput name="name" value={ user.name } handler={ handleChange } />
           <PageInput name="email" value={ user.email } handler={ handleChange } />
