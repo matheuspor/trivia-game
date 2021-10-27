@@ -1,22 +1,20 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { Button, CircularProgress } from '@material-ui/core';
+import React from 'react';
+import { Button } from '@material-ui/core';
 
 export default function PageButton({ name, user, handler }) {
-  const [clicked, setClick] = useState(false);
-
   return (
     (
       <Button
         type={ name === 'Play' ? 'submit' : 'button' }
         fullWidth
         disabled={ name === 'Play' && !user.name }
-        onClick={ () => (name === 'Play' ? setClick(true) : handler()) }
+        onClick={ () => (name !== 'Play' && handler()) }
         variant="contained"
         sx={ { mt: 3, mb: 2 } }
         color={ name === 'Play' ? 'primary' : 'secondary' }
       >
-        {clicked ? <CircularProgress color="secondary" /> : name}
+        {name}
       </Button>)
   );
 }

@@ -1,9 +1,9 @@
-import { Button, Container, CssBaseline, Dialog, DialogActions,
+import { Button, CircularProgress, Container, CssBaseline, Dialog, DialogActions,
   DialogContent, DialogContentText,
   DialogTitle, Typography } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 import { SettingsOutlined } from '@mui/icons-material';
-import { FormControl, Grid } from '@mui/material';
+import { Backdrop, FormControl, Grid } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import makeSelect from '../components/select';
 import SettingsContext from '../context/SettingsContext';
@@ -11,6 +11,7 @@ import { fetchQuestions } from '../services/apiHelper';
 
 function Settings(window) {
   const [open, setOpen] = useState(false);
+  const [openBackdrop, setOpenBackdrop] = useState(false);
   const [settings, setSettings] = useState({
     category: 'All',
     difficulty: 'All',
@@ -33,6 +34,7 @@ function Settings(window) {
   }
 
   function redirect() {
+    setOpenBackdrop(true);
     setNewSetting(settings);
     const token = localStorage.getItem('token');
     fetchQuestions(token, settings)
@@ -61,7 +63,15 @@ function Settings(window) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={ () => setOpen(false) } autofocus>Close</Button>
+        <Button
+          onClick={ () => {
+            setOpen(false);
+            setOpenBackdrop(false);
+          } }
+          autofocus
+        >
+          Close
+        </Button>
       </DialogActions>
     </Dialog>
   );
@@ -110,6 +120,13 @@ function Settings(window) {
         </Button>
       </Box>
       {makeDialog()}
+      <Backdrop
+        sx={ { color: '#fff' } }
+        open={ openBackdrop }
+        onClick={ () => setOpenBackdrop(false) }
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Container>
   );
 }

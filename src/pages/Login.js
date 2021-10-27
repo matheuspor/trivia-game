@@ -3,9 +3,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
-import { Container, CssBaseline } from '@material-ui/core';
+import { CircularProgress, Container, CssBaseline } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 import { makeStyles } from '@material-ui/styles';
+import { Backdrop } from '@mui/material';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
@@ -28,6 +29,8 @@ const useStyles = makeStyles(() => ({
 }));
 function Login({ sendQuestions, sendPlayer, player }) {
   const { settings } = useContext(SettingsContext);
+  const [open, setOpen] = useState(false);
+
   const history = useHistory();
   const classes = useStyles();
 
@@ -52,6 +55,7 @@ function Login({ sendQuestions, sendPlayer, player }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setOpen(true);
     const emailHash = md5(user.email).toString();
     fetchPlayerImg(emailHash).then(({ url }) => {
       setUser({ ...user, avatar: url });
@@ -72,7 +76,11 @@ function Login({ sendQuestions, sendPlayer, player }) {
         } }
       >
         <img src={ logo } className={ classes.logo } alt="logo" />
-        <Box component="form" onSubmit={ handleSubmit } noValidate sx={ { mt: 1 } }>
+        <Box
+          component="form"
+          onSubmit={ handleSubmit }
+          sx={ { mt: 1 } }
+        >
           <PageInput name="name" value={ user.name } handler={ handleChange } />
           <PageInput name="email" value={ user.email } handler={ handleChange } />
           <PageButton name="Play" user={ user } />
@@ -83,6 +91,13 @@ function Login({ sendQuestions, sendPlayer, player }) {
           />
         </Box>
       </Box>
+      <Backdrop
+        sx={ { color: '#fff' } }
+        open={ open }
+        onClick={ () => setOpen(false) }
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Container>
   );
 }
