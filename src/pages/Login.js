@@ -43,10 +43,8 @@ function Login({ sendQuestions, sendPlayer, player }) {
     fetchPlayerToken()
       .then((token) => {
         localStorage.setItem('token', token);
-        fetchQuestions(token, settings)
-          .then((questions) => sendQuestions(questions));
       });
-  }, [settings, sendQuestions]);
+  }, []);
 
   function handleChange({ target }) {
     const { name, value } = target;
@@ -60,8 +58,12 @@ function Login({ sendQuestions, sendPlayer, player }) {
     fetchPlayerImg(emailHash).then(({ url }) => {
       setUser({ ...user, avatar: url });
       sendPlayer({ ...user, avatar: url });
-      history.push('/trivia-game/game');
     });
+    fetchQuestions(localStorage.getItem('token'), settings)
+      .then((questions) => {
+        sendQuestions(questions);
+        history.push('/trivia-game/game');
+      });
   }
 
   return (
