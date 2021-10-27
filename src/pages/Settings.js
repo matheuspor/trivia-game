@@ -1,15 +1,18 @@
+import { Button, Dialog, DialogActions,
+  DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router';
 import makeSelect from '../components/select';
 import SettingsContext from '../context/SettingsContext';
+import { fetchQuestions } from '../services/apiHelper';
 
-function Settings() {
+function Settings(window) {
+  const [open, setOpen] = useState(false);
   const [settings, setSettings] = useState({
     category: 'All',
     difficulty: 'All',
     type: 'All',
   });
-  const history = useHistory();
+  // const history = useHistory();
   const { setNewSetting, categories } = useContext(SettingsContext);
 
   function handleChange({ target: { name, value } }) {
@@ -28,8 +31,37 @@ function Settings() {
 
   function redirect() {
     setNewSetting(settings);
-    history.push('/trivia-game');
+    const token = localStorage.getItem('token');
+    fetchQuestions(token, settings)
+      .then((questions) => {
+        if (!questions.length) {
+          setOpen(true);
+        } else {
+          window.history.push('/trivia-game');
+        }
+      });
   }
+
+  const makeDialog = () => (
+    <Dialog
+      open={ open }
+      onClose={ () => setOpen(false) }
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        Error: Unable to find questions with the current settings.
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Please change the Category, Difficulty and/or Type.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={ () => setOpen(false) } autofocus>Close</Button>
+      </DialogActions>
+    </Dialog>
+  );
 
   return (
     <>
@@ -40,7 +72,8 @@ function Settings() {
       <br />
       {makeSelect('type', ['Multiple', 'True/False'], handleChange)}
       <br />
-      <button type="button" onClick={ redirect }> Voltar </button>
+      <button type="button" onClick={ redirect }> Return </button>
+      {makeDialog()}
     </>
   );
 }
