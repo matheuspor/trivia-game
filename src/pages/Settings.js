@@ -1,5 +1,9 @@
-import { Button, Dialog, DialogActions,
-  DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import { Button, Container, CssBaseline, Dialog, DialogActions,
+  DialogContent, DialogContentText,
+  DialogTitle, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/system';
+import { SettingsOutlined } from '@mui/icons-material';
+import { FormControl, Grid } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import makeSelect from '../components/select';
 import SettingsContext from '../context/SettingsContext';
@@ -12,7 +16,6 @@ function Settings(window) {
     difficulty: 'All',
     type: 'All',
   });
-  // const history = useHistory();
   const { setNewSetting, categories } = useContext(SettingsContext);
 
   function handleChange({ target: { name, value } }) {
@@ -64,17 +67,50 @@ function Settings(window) {
   );
 
   return (
-    <>
-      <h2 data-testid="settings-title">Settings</h2>
-      {makeSelect('category', categories, handleChange)}
-      <br />
-      {makeSelect('difficulty', ['Easy', 'Medium', 'Hard'], handleChange)}
-      <br />
-      {makeSelect('type', ['Multiple', 'True/False'], handleChange)}
-      <br />
-      <button type="button" onClick={ redirect }> Return </button>
+    <Container component="main" maxWidth="sx">
+      <CssBaseline />
+      <Box
+        sx={ {
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        } }
+      >
+        <Grid
+          container
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          sx={ { mb: 2, mt: -2 } }
+        >
+          <Typography variant="h2">
+            Settings
+          </Typography>
+          <SettingsOutlined sx={ { fontSize: 55 } } />
+        </Grid>
+        <Box component="form" noValidate sx={ { mt: 1 } }>
+          <FormControl sx={ { m: 1, minWidth: 120 } }>
+            {makeSelect('category', categories, handleChange) }
+            <br />
+            {makeSelect('difficulty', ['Easy', 'Medium', 'Hard'], handleChange)}
+            <br />
+            {makeSelect('type', ['Multiple', 'True/False'], handleChange)}
+            <br />
+          </FormControl>
+        </Box>
+        <Button
+          type="button"
+          onClick={ redirect }
+          variant="contained"
+          size="medium"
+          color="primary"
+        >
+          Return
+        </Button>
+      </Box>
       {makeDialog()}
-    </>
+    </Container>
   );
 }
 

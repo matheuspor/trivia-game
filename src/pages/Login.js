@@ -72,9 +72,6 @@ function Login({ sendQuestions, sendPlayer, player }) {
         } }
       >
         <img src={ logo } className={ classes.logo } alt="logo" />
-        {/* <Typography component="h1" variant="h5">
-          Your Turn!
-        </Typography> */}
         <Box component="form" onSubmit={ handleSubmit } noValidate sx={ { mt: 1 } }>
           <PageInput name="name" value={ user.name } handler={ handleChange } />
           <PageInput name="email" value={ user.email } handler={ handleChange } />
