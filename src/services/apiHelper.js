@@ -24,8 +24,6 @@ export const fetchQuestions = async (token, settings) => {
   return request;
 };
 
-export const fetchCategories = async () => {
-  const request = await fetch('https://opentdb.com/api_category.php')
-    .then((response) => response.json());
-  return request;
-};
+export const fetchCategories = () => fetch('https://opentdb.com/api_category.php')
+  .then((response) => response.json())
+  .then((categories) => localStorage.setItem('categories', JSON.stringify(categories)));

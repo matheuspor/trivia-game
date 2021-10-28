@@ -10,7 +10,7 @@ import { Backdrop } from '@mui/material';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
-import { fetchPlayerImg, fetchPlayerToken,
+import { fetchCategories, fetchPlayerImg, fetchPlayerToken,
   fetchQuestions } from '../services/apiHelper';
 import SettingsContext from '../context/SettingsContext';
 import PageButton from '../components/PageButton';
@@ -30,6 +30,8 @@ const useStyles = makeStyles(() => ({
 function Login({ sendQuestions, sendPlayer, player }) {
   const { settings } = useContext(SettingsContext);
   const [open, setOpen] = useState(false);
+
+  const categories = JSON.parse(localStorage.getItem('categories'));
 
   const history = useHistory();
   const classes = useStyles();
@@ -89,7 +91,17 @@ function Login({ sendQuestions, sendPlayer, player }) {
           <PageButton
             name="Settings"
             user={ user }
-            handler={ () => history.push('/trivia-game/settings') }
+            handler={ () => {
+              setOpen(true);
+              if (!categories) {
+                fetchCategories()
+                  .then(() => {
+                    history.push('/trivia-game/settings');
+                  });
+              } else {
+                history.push('/trivia-game/settings');
+              }
+            } }
           />
         </Box>
       </Box>

@@ -17,7 +17,8 @@ function Settings(window) {
     difficulty: 'All',
     type: 'All',
   });
-  const { setNewSetting, categories } = useContext(SettingsContext);
+  const { setNewSetting } = useContext(SettingsContext);
+  const categories = JSON.parse(localStorage.getItem('categories'));
 
   function handleChange({ target: { name, value } }) {
     if (name === 'category') {
