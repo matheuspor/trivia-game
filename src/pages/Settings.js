@@ -41,6 +41,7 @@ function Settings(window) {
       .then((questions) => {
         if (!questions.length) {
           setOpen(true);
+          setOpenBackdrop(false);
         } else {
           window.history.push('/trivia-game');
         }
@@ -64,10 +65,7 @@ function Settings(window) {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={ () => {
-            setOpen(false);
-            setOpenBackdrop(false);
-          } }
+          onClick={ () => setOpen(false) }
           autofocus
         >
           Close
