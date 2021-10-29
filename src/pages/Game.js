@@ -1,7 +1,14 @@
+/* eslint-disable react/jsx-max-depth */
+/* eslint-disable max-lines */
+import { CircularProgress, CssBaseline } from '@material-ui/core';
+import { Box } from '@material-ui/system';
+import { AppBar, Container, Toolbar, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
+const ONE_SECOND = 1000;
+const ONE_PERCENT = 3.33;
 export class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -68,7 +75,6 @@ export class Game extends React.Component {
   }
 
   setTimer() {
-    const ONE_SECOND = 1000;
     this.setState({ timer: 30 });
     const countdown = setInterval(() => {
       this.setState(
@@ -164,47 +170,105 @@ export class Game extends React.Component {
     }
   }
 
+  circularProgressWithLabel(timer) {
+    return (
+      <Box
+        sx={ {
+          position: 'absolute',
+          zIndex: 1,
+          top: 8,
+          left: 140,
+          margin: '0 auto',
+        } }
+      >
+        <CircularProgress
+          variant="determinate"
+          value={ timer * ONE_PERCENT }
+          sx={ { color: '#006600' } }
+          size={ 40 }
+          thickness={ 3 }
+        />
+        <Box
+          sx={ {
+            top: 0,
+            left: 0,
+            bottom: 5,
+            right: 0,
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          } }
+        >
+          <Typography
+            sx={ { fontWeight: 600 } }
+            variant="h6"
+            component="div"
+            color="text.secondary"
+          >
+            {timer}
+          </Typography>
+        </Box>
+      </Box>
+    );
+  }
+
   render() {
     const { player, questions } = this.props;
     const { timer, questionNumber, PlayerScore, clicked } = this.state;
+
     return (
-      <div>
-        <p>{timer}</p>
-        <header>
-          <img
-            alt="avatar"
-            data-testid="header-profile-picture"
-            src={ player.avatar }
-          />
-          <h4 data-testid="header-player-name">
-            Nome:
-            {player.name}
-            {' '}
-            <span data-testid="header-score">
-              Score:
-              {PlayerScore}
-            </span>
-          </h4>
-        </header>
-        <div>
-          <p data-testid="question-category">
-            Category:
-            {decodeURIComponent(questions[questionNumber].category)}
-          </p>
-          <h3 data-testid="question-text">
-            {decodeURIComponent(questions[questionNumber].question)}
-          </h3>
-          {this.randomAnswers(questions)}
-        </div>
-        {clicked && (
-          <input
-            type="button"
-            data-testid="btn-next"
-            onClick={ () => this.nextButton(questionNumber) }
-            value="Próxima"
-          />
-        )}
-      </div>
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <Box
+          sx={ {
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          } }
+        >
+          <AppBar position="fixed" color="secondary" sx={ { bottom: 'auto', top: 0 } }>
+            <Toolbar>
+              {this.circularProgressWithLabel(timer)}
+            </Toolbar>
+          </AppBar>
+          <header>
+            <img
+              alt="avatar"
+              data-testid="header-profile-picture"
+              src={ player.avatar }
+            />
+            <h4 data-testid="header-player-name">
+              Nome:
+              {player.name}
+              {' '}
+              <span data-testid="header-score">
+                Score:
+                {PlayerScore}
+              </span>
+            </h4>
+          </header>
+          <div>
+            <p data-testid="question-category">
+              Category:
+              {decodeURIComponent(questions[questionNumber].category)}
+            </p>
+            <h3 data-testid="question-text">
+              {decodeURIComponent(questions[questionNumber].question)}
+            </h3>
+            {this.randomAnswers(questions)}
+          </div>
+          {clicked && (
+            <input
+              type="button"
+              data-testid="btn-next"
+              onClick={ () => this.nextButton(questionNumber) }
+              value="Próxima"
+            />
+          )}
+        </Box>
+      </Container>
     );
   }
 }
