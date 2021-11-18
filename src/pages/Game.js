@@ -1,14 +1,32 @@
 /* eslint-disable react/jsx-max-depth */
 /* eslint-disable max-lines */
 import { CircularProgress, CssBaseline } from '@material-ui/core';
+import TimerIcon from '@mui/icons-material/Timer';
 import { Box } from '@material-ui/system';
-import { AppBar, Container, Toolbar, Typography } from '@mui/material';
+import { Container, Typography, Avatar, Paper, ButtonGroup, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/styles';
 
 const ONE_SECOND = 1000;
 const ONE_PERCENT = 3.33;
+
+const styles = () => ({
+  disabledGreen: {
+    '&:disabled': {
+      color: 'black',
+      borderColor: 'black',
+      border: '3px solid black',
+    },
+    background: 'linear-gradient(45deg, #1df401 30%, #1df401 90%)',
+    color: '#1df401',
+  },
+  disabledRed: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+  },
+});
+
 export class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -111,45 +129,55 @@ export class Game extends React.Component {
 
   randomAnswers(questions) {
     const { questionNumber, clicked } = this.state;
+    const { classes } = this.props;
     const allQuestions = [
       questions[questionNumber].correct_answer,
       ...questions[questionNumber].incorrect_answers,
     ].sort();
     return (
-      <ul>
+      <ButtonGroup
+        orientation="vertical"
+        variant="outlined"
+        aria-label="outlined button group"
+        sx={ { textAlign: 'center',
+          pb: 5,
+          maxWidth: '100%',
+        } }
+        color="primary"
+      >
         {allQuestions.map((question, index) => {
           if (question === questions[questionNumber].correct_answer) {
             return (
-              <button
+              <Button
                 type="button"
                 onClick={ this.handleClick }
                 data-testid="correct-answer"
                 disabled={ clicked }
                 id="correct"
-                className={ clicked ? 'green-border' : '' }
+                className={ clicked && classes.disabledGreen }
                 name="correct-answer"
                 key={ index }
               >
                 {decodeURIComponent(question)}
-              </button>
+              </Button>
             );
           }
           return (
-            <button
+            <Button
               type="button"
               disabled={ clicked }
               id={ index }
-              className={ clicked ? 'red-border' : '' }
+              className={ clicked && classes.disabledRed }
               name="wrong-answer"
               key={ index }
               data-testid={ `wrong-answer-${index}` }
               onClick={ this.handleClick }
             >
               {decodeURIComponent(question)}
-            </button>
+            </Button>
           );
         })}
-      </ul>
+      </ButtonGroup>
     );
   }
 
@@ -174,25 +202,35 @@ export class Game extends React.Component {
     return (
       <Box
         sx={ {
-          position: 'absolute',
-          zIndex: 1,
-          top: 8,
-          left: 140,
-          margin: '0 auto',
+          position: 'relative', display: 'inline-flex',
         } }
       >
-        <CircularProgress
-          variant="determinate"
-          value={ timer * ONE_PERCENT }
-          sx={ { color: '#006600' } }
-          size={ 40 }
-          thickness={ 3 }
-        />
         <Box
           sx={ {
             top: 0,
             left: 0,
-            bottom: 5,
+            bottom: 25,
+            right: 0,
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          } }
+        >
+          <TimerIcon fontSize="20" />
+        </Box>
+        <CircularProgress
+          variant="determinate"
+          value={ timer * ONE_PERCENT }
+          sx={ { color: '#006600' } }
+          size={ 60 }
+          thickness={ 3 }
+        />
+        <Box
+          sx={ {
+            top: 13,
+            left: 0,
+            bottom: 0,
             right: 0,
             position: 'absolute',
             display: 'flex',
@@ -222,51 +260,69 @@ export class Game extends React.Component {
         <CssBaseline />
         <Box
           sx={ {
-            marginTop: 8,
+            marginTop: 2,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           } }
         >
-          <AppBar position="fixed" color="secondary" sx={ { bottom: 'auto', top: 0 } }>
-            <Toolbar>
-              {this.circularProgressWithLabel(timer)}
-            </Toolbar>
-          </AppBar>
+          <Avatar
+            sx={ { height: 50, width: 60 } }
+            src={ player.avatar }
+            alt="Player Image Avatar"
+          />
+          <Typography sx={ { flexGrow: 1.5, marginLeft: 1 } } variant="h5">
+            {player.name}
+          </Typography>
+          <Typography
+            variant="h6"
+          >
+            {PlayerScore}
+            {' '}
+            Points
+          </Typography>
           <header>
-            <img
-              alt="avatar"
-              data-testid="header-profile-picture"
-              src={ player.avatar }
-            />
-            <h4 data-testid="header-player-name">
-              Nome:
-              {player.name}
-              {' '}
-              <span data-testid="header-score">
-                Score:
-                {PlayerScore}
-              </span>
-            </h4>
+            {this.circularProgressWithLabel(timer)}
           </header>
-          <div>
-            <p data-testid="question-category">
-              Category:
-              {decodeURIComponent(questions[questionNumber].category)}
-            </p>
-            <h3 data-testid="question-text">
+          <Paper
+            variant="outlined"
+            sx={ {
+              maxWidth: { xs: '80%' },
+              my: { xs: 1, md: 2 },
+              p: 2,
+              pb: 5,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center' } }
+          >
+            <Paper elevation="3" sx={ { textAlign: 'center', p: 1 } }>
+              <Typography sx={ { fontSize: { xs: 18, md: 20 }, fontWeight: 'bold' } }>
+                {decodeURIComponent(questions[questionNumber].category)}
+              </Typography>
+            </Paper>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={ { pt: 2, pb: 4, fontWeight: 'regular', textAlign: 'center' } }
+              gutterBottom
+            >
               {decodeURIComponent(questions[questionNumber].question)}
-            </h3>
+            </Typography>
             {this.randomAnswers(questions)}
-          </div>
-          {clicked && (
-            <input
-              type="button"
-              data-testid="btn-next"
-              onClick={ () => this.nextButton(questionNumber) }
-              value="Próxima"
-            />
-          )}
+            {clicked && (
+              <Button
+                sx={ { justifyContent: 'center',
+                  alignSelf: 'center',
+                  textAlign: 'center' } }
+                type="button"
+                variant="contained"
+                data-testid="btn-next"
+                onClick={ () => this.nextButton(questionNumber) }
+              >
+                Next
+              </Button>
+            )}
+          </Paper>
         </Box>
       </Container>
     );
@@ -274,6 +330,10 @@ export class Game extends React.Component {
 }
 
 Game.propTypes = {
+  classes: PropTypes.shape({
+    disabledGreen: PropTypes.string,
+    disabledRed: PropTypes.string,
+  }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
@@ -290,4 +350,4 @@ const mapStateToProps = (state) => ({
   player: state.user.player,
 });
 
-export default connect(mapStateToProps)(Game);
+export default connect(mapStateToProps)(withStyles(styles)(Game));
