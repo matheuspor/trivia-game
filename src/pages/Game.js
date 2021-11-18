@@ -256,7 +256,7 @@ export class Game extends React.Component {
     const { timer, questionNumber, PlayerScore, clicked } = this.state;
 
     return (
-      <Container component="main" maxWidth="md">
+      <Container component="main" maxWidth="md" sx={ { pb: 5 } }>
         <CssBaseline />
         <Box
           sx={ {
