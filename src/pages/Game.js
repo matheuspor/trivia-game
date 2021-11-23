@@ -3,7 +3,8 @@
 import { CircularProgress, CssBaseline } from '@material-ui/core';
 import TimerIcon from '@mui/icons-material/Timer';
 import { Box } from '@material-ui/system';
-import { Container, Typography, Avatar, Paper, ButtonGroup, Button } from '@mui/material';
+import { Container, Typography, Avatar,
+  Paper, ButtonGroup, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -271,11 +272,12 @@ export class Game extends React.Component {
             src={ player.avatar }
             alt="Player Image Avatar"
           />
-          <Typography sx={ { flexGrow: 1.5, marginLeft: 1 } } variant="h5">
+          <Typography variant="h6">
             {player.name}
           </Typography>
           <Typography
             variant="h6"
+            sx={ { fontWeight: 'regular' } }
           >
             {PlayerScore}
             {' '}
@@ -314,7 +316,6 @@ export class Game extends React.Component {
                 sx={ { justifyContent: 'center',
                   alignSelf: 'center',
                   textAlign: 'center' } }
-                type="button"
                 variant="contained"
                 data-testid="btn-next"
                 onClick={ () => this.nextButton(questionNumber) }
