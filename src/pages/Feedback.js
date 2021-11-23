@@ -33,7 +33,7 @@ export default class Feedback extends Component {
               </Grid>
               <Grid item xs>
                 <Typography
-                  sx={ { fontWeight: 'bold', mt: -1 } }
+                  sx={ { fontWeight: 'bold' } }
                   variant="h6"
                   color="text.secondary"
                 >
