@@ -5,11 +5,13 @@ import { Box } from '@material-ui/system';
 import { SettingsOutlined } from '@mui/icons-material';
 import { Backdrop, FormControl, Grid } from '@mui/material';
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router';
 import makeSelect from '../components/select';
 import SettingsContext from '../context/SettingsContext';
 import { fetchQuestions } from '../services/apiHelper';
 
-function Settings(window) {
+function Settings() {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [settings, setSettings] = useState({
@@ -44,7 +46,7 @@ function Settings(window) {
           setOpen(true);
           setOpenBackdrop(false);
         } else {
-          window.history.push('/trivia-game');
+          history.push('/trivia-game');
         }
       });
   }

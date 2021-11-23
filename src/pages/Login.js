@@ -1,12 +1,13 @@
+/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router';
 import { CircularProgress, Container, CssBaseline } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 import { makeStyles } from '@material-ui/styles';
 import { Backdrop } from '@mui/material';
+import { useHistory } from 'react-router';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
@@ -31,9 +32,10 @@ function Login({ sendQuestions, sendPlayer, player }) {
   const { settings } = useContext(SettingsContext);
   const [open, setOpen] = useState(false);
 
+  const history = useHistory();
+
   const categories = JSON.parse(localStorage.getItem('categories'));
 
-  const history = useHistory();
   const classes = useStyles();
 
   const [user, setUser] = useState({
@@ -87,7 +89,10 @@ function Login({ sendQuestions, sendPlayer, player }) {
         >
           <PageInput name="name" value={ user.name } handler={ handleChange } />
           <PageInput name="email" value={ user.email } handler={ handleChange } />
-          <PageButton name="Play" user={ user } />
+          <PageButton
+            name="Play"
+            user={ user }
+          />
           <PageButton
             name="Settings"
             user={ user }

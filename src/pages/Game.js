@@ -4,7 +4,7 @@ import { CircularProgress, CssBaseline } from '@material-ui/core';
 import TimerIcon from '@mui/icons-material/Timer';
 import { Box } from '@material-ui/system';
 import { Container, Typography, Avatar,
-  Paper, ButtonGroup, Button } from '@mui/material';
+  Paper, Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -16,15 +16,16 @@ const ONE_PERCENT = 3.33;
 const styles = () => ({
   disabledGreen: {
     '&:disabled': {
-      color: 'black',
-      borderColor: 'black',
-      border: '3px solid black',
+      borderColor: 'black !important',
+      border: '3px solid black !important',
+      background: 'linear-gradient(45deg, #1df401 30%, #1df401 90%)',
+      color: '#212121 !important',
     },
-    background: 'linear-gradient(45deg, #1df401 30%, #1df401 90%)',
-    color: '#1df401',
   },
   disabledRed: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    '&:disabled': {
+      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    },
   },
 });
 
@@ -136,27 +137,23 @@ export class Game extends React.Component {
       ...questions[questionNumber].incorrect_answers,
     ].sort();
     return (
-      <ButtonGroup
-        orientation="vertical"
-        variant="outlined"
-        aria-label="outlined button group"
-        sx={ { textAlign: 'center',
-          pb: 5,
-          maxWidth: '100%',
+      <Box
+        sx={ {
+          display: 'flex',
+          flexDirection: 'column',
         } }
-        color="primary"
       >
         {allQuestions.map((question, index) => {
           if (question === questions[questionNumber].correct_answer) {
             return (
               <Button
-                type="button"
+                variant="outlined"
+                sx={ { my: 1 } }
                 onClick={ this.handleClick }
                 data-testid="correct-answer"
                 disabled={ clicked }
                 id="correct"
-                className={ clicked && classes.disabledGreen }
-                name="correct-answer"
+                className={ classes.disabledGreen }
                 key={ index }
               >
                 {decodeURIComponent(question)}
@@ -165,11 +162,12 @@ export class Game extends React.Component {
           }
           return (
             <Button
+              variant="outlined"
+              sx={ { my: 1 } }
               type="button"
               disabled={ clicked }
               id={ index }
-              className={ clicked && classes.disabledRed }
-              name="wrong-answer"
+              className={ classes.disabledRed }
               key={ index }
               data-testid={ `wrong-answer-${index}` }
               onClick={ this.handleClick }
@@ -178,7 +176,7 @@ export class Game extends React.Component {
             </Button>
           );
         })}
-      </ButtonGroup>
+      </Box>
     );
   }
 
@@ -313,9 +311,7 @@ export class Game extends React.Component {
             {this.randomAnswers(questions)}
             {clicked && (
               <Button
-                sx={ { justifyContent: 'center',
-                  alignSelf: 'center',
-                  textAlign: 'center' } }
+                sx={ { mt: 2 } }
                 variant="contained"
                 data-testid="btn-next"
                 onClick={ () => this.nextButton(questionNumber) }
