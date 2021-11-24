@@ -59,7 +59,7 @@ export default class Feedback extends Component {
               </Typography>
             </Paper>
             <Typography
-              sx={ { pt: 2 } }
+              sx={ { pt: 2, fontSize: 16, fontWeight: 'regular' } }
               variant="h6"
               color="text.primary"
             >
@@ -69,7 +69,7 @@ export default class Feedback extends Component {
                 && (
                   <Typography
                     variant="body1"
-                    sx={ { py: 1,
+                    sx={ { my: 1,
                       fontStyle: 'oblique',
                       fontWeight: 'regular',
                       textDecoration: 'underline',
@@ -83,7 +83,7 @@ export default class Feedback extends Component {
               data-testid="btn-play-again"
               color="primary"
               onClick={ () => history.push('/trivia-game') }
-              sx={ { my: 1 } }
+              sx={ { mb: 1 } }
             >
               Play Again
             </Button>
