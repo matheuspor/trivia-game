@@ -75,23 +75,17 @@ export class Game extends React.Component {
       medium: 2,
       hard: 3,
     };
+    this.setState({ clicked: true });
 
     if (target.name === 'correct-answer') {
       this.setState((prevstate) => ({
         PlayerScore:
           prevstate.PlayerScore + baseScore + timer * obj[difficulty],
         PlayerAssertions: prevstate.PlayerAssertions + 1,
-      }));
-    }
-
-    this.setState(
-      {
-        clicked: true,
-      },
-      () => {
+      }), () => {
         this.updateLocalStorage();
-      },
-    );
+      });
+    }
   }
 
   setTimer() {
@@ -125,7 +119,6 @@ export class Game extends React.Component {
         picture: player.avatar,
       },
     };
-
     localStorage.setItem('state', JSON.stringify(localStorageObj));
   }
 
@@ -147,6 +140,7 @@ export class Game extends React.Component {
           if (question === questions[questionNumber].correct_answer) {
             return (
               <Button
+                name="correct-answer"
                 variant="outlined"
                 sx={ { my: 1 } }
                 onClick={ this.handleClick }
@@ -321,6 +315,22 @@ export class Game extends React.Component {
             )}
           </Paper>
         </Box>
+        <hr
+          style={ {
+            color: '#000000',
+            backgroundColor: '#000000',
+            width: '80%',
+            borderColor: '#000000',
+          } }
+        />
+        <Typography
+          variant="h6"
+          component="div"
+          sx={ { pt: 2, pb: 4, fontWeight: 'regular', textAlign: 'center' } }
+          gutterBottom
+        >
+          {`${questionNumber + 1}/5`}
+        </Typography>
       </Container>
     );
   }

@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 export default class Feedback extends Component {
   render() {
     const userData = JSON.parse(localStorage.getItem('state'));
-    const NUMBER = 3;
+    const THREE_QUESTIONS = 3;
     const { player } = userData;
     const { history } = this.props;
     return (
@@ -23,7 +23,7 @@ export default class Feedback extends Component {
           } }
         >
           <Paper sx={ { maxWidth: 400, my: 1, mx: 'auto', p: 2 } }>
-            <Grid container wrap="nowrap" spacing={ 2 }>
+            <Grid container spacing={ 2 }>
               <Grid item>
                 <Avatar
                   data-testid="header-profile-picture"
@@ -59,23 +59,25 @@ export default class Feedback extends Component {
               </Typography>
             </Paper>
             <Typography
-              sx={ { py: 1 } }
+              sx={ { pt: 2 } }
               variant="h6"
               color="text.primary"
             >
-              {`Correct answers: ${player.assertions}`}
+              {`You scored ${player.assertions} out of 5 questions`}
             </Typography>
-            <Typography
-              variant="body1"
-              sx={ { py: 1,
-                fontStyle: 'oblique',
-                fontWeight: 'regular',
-                textDecoration: 'underline',
-                fontSize: 18 } }
-            >
-              {player.assertions < NUMBER
-                ? 'You can do better...' : 'Good Job!'}
-            </Typography>
+            {player.assertions >= THREE_QUESTIONS
+                && (
+                  <Typography
+                    variant="body1"
+                    sx={ { py: 1,
+                      fontStyle: 'oblique',
+                      fontWeight: 'regular',
+                      textDecoration: 'underline',
+                      fontSize: 18 } }
+                  >
+                    Good Job!
+                  </Typography>
+                )}
             <Button
               variant="outlined"
               data-testid="btn-play-again"
