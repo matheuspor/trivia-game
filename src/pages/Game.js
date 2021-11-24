@@ -296,8 +296,7 @@ export class Game extends React.Component {
             </Paper>
             <Typography
               variant="h6"
-              component="div"
-              sx={ { pt: 2, pb: 4, fontWeight: 'regular', textAlign: 'center' } }
+              sx={ { py: 3, fontWeight: 'regular', textAlign: 'center' } }
               gutterBottom
             >
               {decodeURIComponent(questions[questionNumber].question)}
