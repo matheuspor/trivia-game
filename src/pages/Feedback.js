@@ -59,7 +59,7 @@ export default class Feedback extends Component {
               </Typography>
             </Paper>
             <Typography
-              sx={ { pt: 2, fontSize: 16, fontWeight: 'regular' } }
+              sx={ { py: 2, fontSize: 16, fontWeight: 'regular' } }
               variant="h6"
               color="text.primary"
             >
@@ -69,7 +69,7 @@ export default class Feedback extends Component {
                 && (
                   <Typography
                     variant="body1"
-                    sx={ { my: 1,
+                    sx={ { mb: 2,
                       fontStyle: 'oblique',
                       fontWeight: 'regular',
                       textDecoration: 'underline',
