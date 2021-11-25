@@ -78,7 +78,7 @@ function Settings() {
   );
 
   return (
-    <Container component="main" maxWidth="sx">
+    <Container component="main">
       <CssBaseline />
       <Box
         sx={ {

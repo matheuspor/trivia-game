@@ -59,7 +59,7 @@ export default class Feedback extends Component {
               </Typography>
             </Paper>
             <Typography
-              sx={ { py: 2, fontSize: 16, fontWeight: 'regular' } }
+              sx={ { pt: 2, pb: 1, fontSize: 16, fontWeight: 'regular' } }
               variant="h6"
               color="text.primary"
             >

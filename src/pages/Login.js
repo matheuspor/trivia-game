@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { CircularProgress, Container, CssBaseline } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 import { makeStyles } from '@material-ui/styles';
-import { Backdrop } from '@mui/material';
+import { Backdrop, Link, Typography } from '@mui/material';
 import { useHistory } from 'react-router';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
@@ -117,6 +117,19 @@ function Login({ sendQuestions, sendPlayer, player }) {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <hr />
+      <Typography
+        sx={ { mt: 2, pb: 2 } }
+        variant="body2"
+        color="text.secondary"
+        align="center"
+      >
+        {'© '}
+        <Link color="text.primary" target="_blank" href="https://github.com/matheuspor">
+          matheuspor
+        </Link>
+        {' 2021'}
+      </Typography>
     </Container>
   );
 }
