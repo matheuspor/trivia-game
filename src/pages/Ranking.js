@@ -13,6 +13,7 @@ export default class Ranking extends React.Component {
   }
 
   render() {
+    const TOP_10 = 10;
     const getRanking = JSON.parse(localStorage.getItem('ranking'));
     const { history } = this.props;
     return (
@@ -33,15 +34,15 @@ export default class Ranking extends React.Component {
             justifyContent="center"
             sx={ { py: 2 } }
           >
-            <Typography variant="h3" sx={ { fontSize: 35, fontWeight: 'regular' } }>
+            <Typography variant="h3" sx={ { fontSize: 40, fontWeight: 'regular' } }>
               Leaderboard
             </Typography>
-            <EmojiEventsTwoTone sx={ { fontSize: 50 } } />
+            <EmojiEventsTwoTone sx={ { fontSize: 55 } } />
           </Grid>
           <Paper
             variant="outlined"
             sx={ {
-              px: 2,
+              px: 1,
               pb: 3,
               display: 'flex',
               flexDirection: 'column',
@@ -51,29 +52,30 @@ export default class Ranking extends React.Component {
               {getRanking
             && getRanking.sort((lower, greater) => greater.score - lower.score)
               .map((user, index) => (
-                <>
-                  <ListItem key={ index }>
-                    <ListItemAvatar>
-                      <Avatar src={ user.picture } />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={ user.name }
-                      secondary={
-                        <Typography
-                          sx={ { display: 'inline', fontWeight: 'bold' } }
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
-                          {user.score}
-                          {' '}
-                          Points
-                        </Typography>
-                      }
-                    />
-                  </ListItem>
-                  <Divider component="li" />
-                </>
+                index < TOP_10 && (
+                  <>
+                    <ListItem key={ index }>
+                      <ListItemAvatar>
+                        <Avatar src={ user.picture } />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={ user.name }
+                        secondary={
+                          <Typography
+                            sx={ { display: 'inline', fontWeight: 'bold' } }
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          >
+                            {user.score}
+                            {' '}
+                            Points
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                    <Divider component="li" />
+                  </>)
               ))}
             </List>
             <Button
