@@ -59,8 +59,13 @@ export default class Feedback extends Component {
               </Typography>
             </Paper>
             <Typography
-              sx={ { pt: 2, pb: 1, fontSize: 16, fontWeight: 'regular' } }
-              variant="h6"
+              sx={ { pt: 2,
+                pb: 1,
+                fontSize: {
+                  xs: 16,
+                  sm: 'h6.fontSize',
+                },
+                fontWeight: 'regular' } }
               color="text.primary"
             >
               {`You scored ${player.assertions} out of 5 questions`}
@@ -68,12 +73,14 @@ export default class Feedback extends Component {
             {player.assertions >= THREE_QUESTIONS
                 && (
                   <Typography
-                    variant="body1"
                     sx={ { mb: 2,
                       fontStyle: 'oblique',
                       fontWeight: 'regular',
                       textDecoration: 'underline',
-                      fontSize: 18 } }
+                      fontSize: {
+                        xs: 18,
+                        sm: 'h6.fontSize',
+                      } } }
                   >
                     Good Job!
                   </Typography>

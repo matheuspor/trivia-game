@@ -55,8 +55,16 @@ export default class Ranking extends React.Component {
                 index < TOP_10 && (
                   <>
                     <ListItem key={ index }>
-                      <ListItemAvatar>
-                        <Avatar src={ user.picture } />
+                      <ListItemText>
+                        <Typography sx={ { fontWeight: '600' } }>
+                          {index + 1}
+                        </Typography>
+                      </ListItemText>
+                      <ListItemAvatar sx={ { ml: 1 } }>
+                        <Avatar
+                          sx={ { width: 45, height: 45 } }
+                          src={ user.picture }
+                        />
                       </ListItemAvatar>
                       <ListItemText
                         primary={ user.name }
