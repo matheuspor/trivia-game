@@ -34,16 +34,17 @@ export default class Ranking extends React.Component {
             justifyContent="center"
             sx={ { py: 2 } }
           >
-            <Typography variant="h3" sx={ { fontSize: 40, fontWeight: 'regular' } }>
+            <Typography variant="h2" sx={ { fontSize: 40 } }>
               Leaderboard
             </Typography>
-            <EmojiEventsTwoTone sx={ { fontSize: 55 } } />
+            <EmojiEventsTwoTone sx={ { fontSize: 60 } } />
           </Grid>
           <Paper
             variant="outlined"
             sx={ {
-              px: 1,
-              pb: 3,
+              width: 250,
+              px: 2,
+              pb: 2,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center' } }
