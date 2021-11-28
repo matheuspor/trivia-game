@@ -9,7 +9,7 @@ export default function PageButton({ name, user, handler }) {
         type={ name === 'Play' ? 'submit' : 'button' }
         fullWidth
         disabled={ name === 'Play' && !user.name }
-        onClick={ () => (name !== 'Play' && handler()) }
+        onClick={ handler }
         variant="contained"
         sx={ { mt: 3, mb: 2 } }
         color={ name === 'Play' ? 'primary' : 'secondary' }
@@ -20,10 +20,14 @@ export default function PageButton({ name, user, handler }) {
 }
 
 PageButton.propTypes = {
-  handler: PropTypes.func.isRequired,
+  handler: PropTypes.func,
   name: PropTypes.string.isRequired,
   user: PropTypes.shape({
     email: PropTypes.string,
     name: PropTypes.string,
   }).isRequired,
+};
+
+PageButton.defaultProps = {
+  handler: undefined,
 };

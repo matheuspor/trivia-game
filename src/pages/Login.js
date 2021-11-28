@@ -1,68 +1,87 @@
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
+import React
+  from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { CircularProgress, Container, CssBaseline } from '@material-ui/core';
 import { Box } from '@material-ui/system';
-import { makeStyles } from '@material-ui/styles';
-import { Backdrop, Link, Typography } from '@mui/material';
-import { useHistory } from 'react-router';
+import { Backdrop } from '@mui/material';
+import { withStyles } from '@material-ui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
 import { fetchCategories, fetchPlayerImg, fetchPlayerToken,
   fetchQuestions } from '../services/apiHelper';
-import SettingsContext from '../context/SettingsContext';
 import PageButton from '../components/PageButton';
 import PageInput from '../components/PageInput';
 import theme from '../theme';
+import Footer from '../components/Footer';
 
-const useStyles = makeStyles(() => ({
+const styles = () => ({
   logo: {
     height: '6em',
     [theme.breakpoints.up('sm')]: {
       height: '9em',
     },
-    marginBottom: '1em',
+    mb: '1em',
     animation: 'shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both',
   },
-}));
-function Login({ sendQuestions, sendPlayer, player }) {
-  const { settings } = useContext(SettingsContext);
-  const [open, setOpen] = useState(false);
+});
 
-  const history = useHistory();
-
-  const categories = JSON.parse(localStorage.getItem('categories'));
-
-  const classes = useStyles();
-
-  const [user, setUser] = useState({
-    name: player.name,
-    email: player.email,
-  });
-
-  useEffect(() => {
-    fetchPlayerToken()
-      .then((token) => {
-        localStorage.setItem('token', token);
-      });
-  }, []);
-
-  function handleChange({ target }) {
-    const { name, value } = target;
-    setUser({ ...user, [name]: value });
+export class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    const { player: { name, email } } = this.props;
+    this.state = {
+      user: {
+        name,
+        email,
+      },
+      open: true,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  function handleSubmit(event) {
+  componentDidMount() {
+    fetchPlayerToken()
+      .then((token) => {
+        fetchCategories();
+        localStorage.setItem('token', token);
+      })
+      .then(() => this.setState({ open: false }));
+  }
+
+  handleChange({ target }) {
+    const { name, value } = target;
+    this.setState((prevValue) => ({
+      user: {
+        ...prevValue.user,
+        [name]: value,
+      },
+    }));
+  }
+
+  handleSubmit(event) {
+    const { sendQuestions, sendPlayer, settings, history } = this.props;
+    const { user } = this.state;
     event.preventDefault();
-    setOpen(true);
+    this.setState({ open: true });
     const emailHash = md5(user.email).toString();
-    fetchPlayerImg(emailHash).then(({ url }) => {
-      setUser({ ...user, avatar: url });
-      sendPlayer({ ...user, avatar: url });
-    });
+
+    fetchPlayerImg(emailHash)
+      .then(({ url }) => {
+        this.setState((prevState) => ({
+          user: {
+            ...prevState.user,
+            avatar: url,
+          },
+        }), () => {
+          const currentState = this.state;
+          sendPlayer(currentState.user);
+        });
+      });
+
     fetchQuestions(localStorage.getItem('token'), settings)
       .then((questions) => {
         sendQuestions(questions);
@@ -70,72 +89,67 @@ function Login({ sendQuestions, sendPlayer, player }) {
       });
   }
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={ {
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        } }
-      >
-        <img src={ logo } className={ classes.logo } alt="logo" />
-        <Box
-          component="form"
-          onSubmit={ handleSubmit }
-          sx={ { mt: 1 } }
-        >
-          <PageInput name="name" value={ user.name } handler={ handleChange } />
-          <PageInput name="email" value={ user.email } handler={ handleChange } />
-          <PageButton
-            name="Play"
-            user={ user }
-          />
-          <PageButton
-            name="Settings"
-            user={ user }
-            handler={ () => {
-              setOpen(true);
-              if (!categories) {
-                fetchCategories()
-                  .then(() => {
-                    history.push('/trivia-game/settings');
-                  });
-              } else {
-                history.push('/trivia-game/settings');
-              }
-            } }
-          />
-        </Box>
-      </Box>
+  backDrop(open) {
+    return (
       <Backdrop
         sx={ { color: '#fff' } }
         open={ open }
-        onClick={ () => setOpen(false) }
       >
         <CircularProgress color="inherit" />
-      </Backdrop>
-      <hr />
-      <Typography
-        sx={ { mt: 2, pb: 2 } }
-        variant="body2"
-        color="text.secondary"
-        align="center"
-      >
-        {'© '}
-        <Link color="text.primary" target="_blank" href="https://github.com/matheuspor">
-          matheuspor
-        </Link>
-        {' 2021'}
-      </Typography>
-    </Container>
-  );
+      </Backdrop>);
+  }
+
+  render() {
+    const { history, classes } = this.props;
+    const { user, open } = this.state;
+    return (
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        {this.backDrop(open)}
+        <Box
+          sx={ {
+            mt: 6,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          } }
+        >
+          <img src={ logo } className={ classes.logo } alt="logo" />
+          <Box
+            component="form"
+            onSubmit={ this.handleSubmit }
+            sx={ { mt: 1 } }
+          >
+            <PageInput
+              name="name"
+              value={ user.name }
+              handler={ this.handleChange }
+            />
+            <PageInput
+              name="email"
+              value={ user.email }
+              handler={ this.handleChange }
+            />
+            <PageButton
+              name="Play"
+              user={ user }
+            />
+            <PageButton
+              name="Settings"
+              user={ user }
+              handler={ () => history.push('/trivia-game/settings') }
+            />
+          </Box>
+        </Box>
+        <Footer />
+      </Container>
+    );
+  }
 }
 
-const mapStateToProps = ({ user: { player } }) => ({
+const mapStateToProps = ({ user: { player, settings } }) => ({
   player,
+  settings,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -143,9 +157,12 @@ const mapDispatchToProps = (dispatch) => ({
   sendPlayer: (payload) => dispatch(setPlayerInfo(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
 
 Login.propTypes = {
+  classes: PropTypes.shape({
+    logo: PropTypes.string,
+  }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
@@ -155,4 +172,5 @@ Login.propTypes = {
   }).isRequired,
   sendPlayer: PropTypes.func.isRequired,
   sendQuestions: PropTypes.func.isRequired,
+  settings: PropTypes.objectOf(PropTypes.string).isRequired,
 };
