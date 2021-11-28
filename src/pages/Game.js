@@ -210,18 +210,18 @@ export class Game extends React.Component {
             justifyContent: 'center',
           } }
         >
-          <TimerIcon fontSize="20" />
+          <TimerIcon sx={ { fontSize: 20 } } />
         </Box>
         <CircularProgress
           variant="determinate"
           value={ timer * ONE_PERCENT }
           sx={ { color: '#006600' } }
-          size={ 60 }
+          size={ 70 }
           thickness={ 3 }
         />
         <Box
           sx={ {
-            top: 13,
+            top: 22,
             left: 0,
             bottom: 0,
             right: 0,
@@ -232,7 +232,7 @@ export class Game extends React.Component {
           } }
         >
           <Typography
-            sx={ { fontWeight: 600 } }
+            sx={ { fontWeight: 600, fontSize: 26 } }
             variant="h6"
             component="div"
             color="text.secondary"
@@ -275,9 +275,7 @@ export class Game extends React.Component {
             {' '}
             Points
           </Typography>
-          <header>
-            {this.circularProgressWithLabel(timer)}
-          </header>
+          {this.circularProgressWithLabel(timer)}
           <Paper
             variant="outlined"
             sx={ {

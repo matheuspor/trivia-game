@@ -11,7 +11,7 @@ export default function PageButton({ name, user, handler }) {
         disabled={ name === 'Play' && !user.name }
         onClick={ handler }
         variant="contained"
-        sx={ { mt: 3, mb: 2 } }
+        sx={ { my: 2 } }
         color={ name === 'Play' ? 'primary' : 'secondary' }
       >
         {name}

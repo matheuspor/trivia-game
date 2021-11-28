@@ -118,7 +118,7 @@ export class Login extends React.Component {
           <Box
             component="form"
             onSubmit={ this.handleSubmit }
-            sx={ { mt: 1 } }
+            sx={ { mt: 2 } }
           >
             <PageInput
               name="name"
