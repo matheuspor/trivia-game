@@ -1,14 +1,15 @@
-import { Button, CircularProgress, Container, CssBaseline, Dialog, DialogActions,
+import { Button, Container, CssBaseline, Dialog, DialogActions,
   DialogContent, DialogContentText,
   DialogTitle, Typography } from '@material-ui/core';
 import { Box } from '@material-ui/system';
 import { SettingsOutlined } from '@mui/icons-material';
-import { Backdrop, FormControl, Grid } from '@mui/material';
+import { FormControl, Grid } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import makeSelect from '../components/select';
 import SettingsContext from '../context/SettingsContext';
 import { fetchQuestions } from '../services/apiHelper';
+import BackdropComp from '../components/Backdrop';
 
 function Settings() {
   const history = useHistory();
@@ -80,6 +81,7 @@ function Settings() {
   return (
     <Container component="main">
       <CssBaseline />
+      <BackdropComp open={ openBackdrop } />
       <Box
         sx={ {
           marginTop: 8,
@@ -121,13 +123,6 @@ function Settings() {
         </Button>
       </Box>
       {makeDialog()}
-      <Backdrop
-        sx={ { color: '#fff' } }
-        open={ openBackdrop }
-        onClick={ () => setOpenBackdrop(false) }
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </Container>
   );
 }

@@ -3,9 +3,8 @@ import React
   from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { CircularProgress, Container, CssBaseline } from '@material-ui/core';
+import { Container, CssBaseline } from '@material-ui/core';
 import { Box } from '@material-ui/system';
-import { Backdrop } from '@mui/material';
 import { withStyles } from '@material-ui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
@@ -16,6 +15,7 @@ import PageButton from '../components/PageButton';
 import PageInput from '../components/PageInput';
 import theme from '../theme';
 import Footer from '../components/Footer';
+import BackdropComp from '../components/Backdrop';
 
 const styles = () => ({
   logo: {
@@ -41,15 +41,12 @@ export class Login extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
 
-  componentDidMount() {
     fetchPlayerToken()
-      .then((token) => {
+      .then(() => {
         fetchCategories();
-        localStorage.setItem('token', token);
-      })
-      .then(() => this.setState({ open: false }));
+        this.setState({ open: false });
+      });
   }
 
   handleChange({ target }) {
@@ -89,59 +86,53 @@ export class Login extends React.Component {
       });
   }
 
-  backDrop(open) {
-    return (
-      <Backdrop
-        sx={ { color: '#fff' } }
-        open={ open }
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>);
-  }
-
   render() {
     const { history, classes } = this.props;
     const { user, open } = this.state;
     return (
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        {this.backDrop(open)}
-        <Box
-          sx={ {
-            mt: 6,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          } }
-        >
-          <img src={ logo } className={ classes.logo } alt="logo" />
-          <Box
-            component="form"
-            onSubmit={ this.handleSubmit }
-            sx={ { mt: 2 } }
-          >
-            <PageInput
-              name="name"
-              value={ user.name }
-              handler={ this.handleChange }
-            />
-            <PageInput
-              name="email"
-              value={ user.email }
-              handler={ this.handleChange }
-            />
-            <PageButton
-              name="Play"
-              user={ user }
-            />
-            <PageButton
-              name="Settings"
-              user={ user }
-              handler={ () => history.push('/trivia-game/settings') }
-            />
-          </Box>
-        </Box>
-        <Footer />
+        <BackdropComp open={ open } />
+        {open || (
+          <>
+            <CssBaseline />
+            <Box
+              sx={ {
+                mt: 6,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              } }
+            >
+              <img src={ logo } className={ classes.logo } alt="logo" />
+              <Box
+                component="form"
+                onSubmit={ this.handleSubmit }
+                sx={ { mt: 2 } }
+              >
+                <PageInput
+                  name="name"
+                  value={ user.name }
+                  handler={ this.handleChange }
+                />
+                <PageInput
+                  name="email"
+                  value={ user.email }
+                  handler={ this.handleChange }
+                />
+                <PageButton
+                  name="Play"
+                  user={ user }
+                />
+                <PageButton
+                  name="Settings"
+                  user={ user }
+                  handler={ () => history.push('/trivia-game/settings') }
+                />
+              </Box>
+            </Box>
+            <Footer />
+          </>
+        )}
       </Container>
     );
   }

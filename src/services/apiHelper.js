@@ -1,7 +1,7 @@
 export const fetchPlayerToken = async () => {
   const request = await fetch('https://opentdb.com/api_token.php?command=request')
     .then((response) => response.json())
-    .then((token) => token.token);
+    .then((token) => localStorage.setItem('token', token.token));
   return request;
 };
 
