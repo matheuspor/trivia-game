@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import { CircularProgress } from '@material-ui/core';
-import { Backdrop } from '@mui/material';
+import { Backdrop, CircularProgress } from '@mui/material';
 import React from 'react';
 
 export default function BackdropComp({ open }) {

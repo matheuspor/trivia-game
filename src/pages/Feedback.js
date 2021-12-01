@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-max-depth */
 import PropTypes from 'prop-types';
-import { CssBaseline } from '@material-ui/core';
-import { Box } from '@material-ui/system';
-import { Avatar, Button, Container, Grid, Paper, Typography } from '@mui/material';
+import { Avatar, Button, Container, Grid,
+  Paper, Typography, CssBaseline, Box } from '@mui/material';
 import React, { Component } from 'react';
 
 export default class Feedback extends Component {

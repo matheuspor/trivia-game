@@ -1,9 +1,8 @@
 import { Button, Container, CssBaseline, Dialog, DialogActions,
   DialogContent, DialogContentText,
-  DialogTitle, Typography } from '@material-ui/core';
-import { Box } from '@material-ui/system';
+  DialogTitle, Typography, FormControl, Grid } from '@mui/material';
+import { Box } from '@mui/system';
 import { SettingsOutlined } from '@mui/icons-material';
-import { FormControl, Grid } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import makeSelect from '../components/select';

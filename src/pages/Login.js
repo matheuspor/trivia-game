@@ -3,8 +3,7 @@ import React
   from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { Container, CssBaseline } from '@material-ui/core';
-import { Box } from '@material-ui/system';
+import { Container, CssBaseline, Box } from '@mui/material';
 import { withStyles } from '@material-ui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';

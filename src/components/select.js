@@ -1,5 +1,4 @@
-import { TextField } from '@material-ui/core';
-import { MenuItem } from '@mui/material';
+import { TextField, MenuItem } from '@mui/material';
 import React from 'react';
 
 export default function makeSelect(name, values, handler) {
