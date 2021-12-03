@@ -3,8 +3,10 @@ import React
   from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { Container, CssBaseline, Box } from '@mui/material';
-import { withStyles } from '@material-ui/styles';
+import { Container, CssBaseline, Box,
+  Dialog, DialogTitle, DialogContent,
+  DialogActions, Button, Stack } from '@mui/material';
+import { withStyles } from '@mui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
@@ -15,6 +17,7 @@ import PageInput from '../components/PageInput';
 import theme from '../theme';
 import Footer from '../components/Footer';
 import BackdropComp from '../components/Backdrop';
+import makeSelect from '../components/select';
 
 const styles = () => ({
   logo: {
@@ -37,6 +40,7 @@ export class Login extends React.Component {
         email,
       },
       open: true,
+      openSettings: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -85,12 +89,48 @@ export class Login extends React.Component {
       });
   }
 
+  makeDialog() {
+    const { openSettings } = this.state;
+    const categories = JSON.parse(localStorage.getItem('categories'));
+    return (
+      <Dialog
+        open={ openSettings }
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Settings
+        </DialogTitle>
+        <DialogContent>
+          <Stack spacing={ 3 } sx={ { my: 1 } }>
+            {makeSelect('category', categories) }
+            {makeSelect('difficulty', ['Easy', 'Medium', 'Hard'])}
+            {makeSelect('type', ['Multiple', 'True/False'])}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={ () => this.setState({ openSettings: false }) }
+            autofocus
+            color="secondary"
+            sx={ {
+              '&:hover': { backgroundColor: theme.palette.primary.main },
+            } }
+          >
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
   render() {
-    const { history, classes } = this.props;
+    const { classes } = this.props;
     const { user, open } = this.state;
     return (
       <Container component="main" maxWidth="xs">
         <BackdropComp open={ open } />
+        {this.makeDialog()}
         {open || (
           <>
             <CssBaseline />
@@ -125,7 +165,7 @@ export class Login extends React.Component {
                 <PageButton
                   name="Settings"
                   user={ user }
-                  handler={ () => history.push('/trivia-game/settings') }
+                  handler={ () => this.setState({ openSettings: true }) }
                 />
               </Box>
             </Box>
