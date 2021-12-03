@@ -4,8 +4,7 @@ import React
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 import { Container, CssBaseline, Box,
-  Dialog, DialogTitle, DialogContent,
-  DialogActions, Button, Stack } from '@mui/material';
+  Dialog } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
@@ -17,7 +16,7 @@ import PageInput from '../components/PageInput';
 import theme from '../theme';
 import Footer from '../components/Footer';
 import BackdropComp from '../components/Backdrop';
-import makeSelect from '../components/select';
+import Settings from './Settings';
 
 const styles = () => ({
   logo: {
@@ -39,7 +38,7 @@ export class Login extends React.Component {
         name,
         email,
       },
-      open: true,
+      openBackdrop: true,
       openSettings: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -48,7 +47,7 @@ export class Login extends React.Component {
     fetchPlayerToken()
       .then(() => {
         fetchCategories();
-        this.setState({ open: false });
+        this.setState({ openBackdrop: false });
       });
   }
 
@@ -66,7 +65,7 @@ export class Login extends React.Component {
     const { sendQuestions, sendPlayer, settings, history } = this.props;
     const { user } = this.state;
     event.preventDefault();
-    this.setState({ open: true });
+    this.setState({ openBackdrop: true });
     const emailHash = md5(user.email).toString();
 
     fetchPlayerImg(emailHash)
@@ -91,47 +90,24 @@ export class Login extends React.Component {
 
   makeDialog() {
     const { openSettings } = this.state;
-    const categories = JSON.parse(localStorage.getItem('categories'));
+    const handleSetting = (value) => this.setState({ openSettings: value });
     return (
       <Dialog
         open={ openSettings }
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          Settings
-        </DialogTitle>
-        <DialogContent>
-          <Stack spacing={ 3 } sx={ { my: 1 } }>
-            {makeSelect('category', categories) }
-            {makeSelect('difficulty', ['Easy', 'Medium', 'Hard'])}
-            {makeSelect('type', ['Multiple', 'True/False'])}
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={ () => this.setState({ openSettings: false }) }
-            autofocus
-            color="secondary"
-            sx={ {
-              '&:hover': { backgroundColor: theme.palette.primary.main },
-            } }
-          >
-            Close
-          </Button>
-        </DialogActions>
+        <Settings openSettings={ openSettings } handler={ handleSetting } />
       </Dialog>
     );
   }
 
   render() {
     const { classes } = this.props;
-    const { user, open } = this.state;
+    const { user, openBackdrop } = this.state;
     return (
       <Container component="main" maxWidth="xs">
-        <BackdropComp open={ open } />
+        <BackdropComp open={ openBackdrop } />
         {this.makeDialog()}
-        {open || (
+        {openBackdrop || (
           <>
             <CssBaseline />
             <Box
@@ -202,5 +178,9 @@ Login.propTypes = {
   }).isRequired,
   sendPlayer: PropTypes.func.isRequired,
   sendQuestions: PropTypes.func.isRequired,
-  settings: PropTypes.objectOf(PropTypes.string).isRequired,
+  settings: PropTypes.shape({
+    category: PropTypes.number,
+    difficulty: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
 };
