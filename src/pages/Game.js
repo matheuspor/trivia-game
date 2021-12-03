@@ -1,10 +1,8 @@
 /* eslint-disable react/jsx-max-depth */
 /* eslint-disable max-lines */
-import { CircularProgress, CssBaseline } from '@material-ui/core';
 import TimerIcon from '@mui/icons-material/Timer';
-import { Box } from '@material-ui/system';
 import { Container, Typography, Avatar,
-  Paper, Button } from '@mui/material';
+  Paper, Button, CircularProgress, CssBaseline, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';

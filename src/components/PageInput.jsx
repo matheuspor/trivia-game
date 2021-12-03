@@ -1,4 +1,4 @@
-import { Link, TextField } from '@material-ui/core';
+import { Link, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 

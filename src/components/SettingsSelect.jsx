@@ -1,8 +1,8 @@
-import { TextField } from '@material-ui/core';
-import { MenuItem } from '@mui/material';
+import PropTypes from 'prop-types';
+import { TextField, MenuItem } from '@mui/material';
 import React from 'react';
 
-export default function makeSelect(name, values, handler) {
+export default function SettingsSelect({ name, values, handler }) {
   return (
     <TextField
       onChange={ handler }
@@ -39,3 +39,14 @@ export default function makeSelect(name, values, handler) {
     </TextField>
   );
 }
+
+SettingsSelect.propTypes = {
+  handler: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  values: PropTypes.shape({
+    map: PropTypes.func,
+    trivia_categories: PropTypes.shape({
+      map: PropTypes.func,
+    }).isRequired,
+  }).isRequired,
+};

@@ -3,9 +3,9 @@ import React
   from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { Container, CssBaseline } from '@material-ui/core';
-import { Box } from '@material-ui/system';
-import { withStyles } from '@material-ui/styles';
+import { Container, CssBaseline, Box,
+  Dialog } from '@mui/material';
+import { withStyles } from '@mui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
@@ -16,6 +16,7 @@ import PageInput from '../components/PageInput';
 import theme from '../theme';
 import Footer from '../components/Footer';
 import BackdropComp from '../components/Backdrop';
+import Settings from './Settings';
 
 const styles = () => ({
   logo: {
@@ -37,7 +38,8 @@ export class Login extends React.Component {
         name,
         email,
       },
-      open: true,
+      openBackdrop: true,
+      openSettings: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -45,7 +47,7 @@ export class Login extends React.Component {
     fetchPlayerToken()
       .then(() => {
         fetchCategories();
-        this.setState({ open: false });
+        this.setState({ openBackdrop: false });
       });
   }
 
@@ -63,7 +65,7 @@ export class Login extends React.Component {
     const { sendQuestions, sendPlayer, settings, history } = this.props;
     const { user } = this.state;
     event.preventDefault();
-    this.setState({ open: true });
+    this.setState({ openBackdrop: true });
     const emailHash = md5(user.email).toString();
 
     fetchPlayerImg(emailHash)
@@ -86,13 +88,26 @@ export class Login extends React.Component {
       });
   }
 
+  makeDialog() {
+    const { openSettings } = this.state;
+    const handleSetting = (value) => this.setState({ openSettings: value });
+    return (
+      <Dialog
+        open={ openSettings }
+      >
+        <Settings openSettings={ openSettings } handler={ handleSetting } />
+      </Dialog>
+    );
+  }
+
   render() {
-    const { history, classes } = this.props;
-    const { user, open } = this.state;
+    const { classes } = this.props;
+    const { user, openBackdrop } = this.state;
     return (
       <Container component="main" maxWidth="xs">
-        <BackdropComp open={ open } />
-        {open || (
+        <BackdropComp open={ openBackdrop } />
+        {this.makeDialog()}
+        {openBackdrop || (
           <>
             <CssBaseline />
             <Box
@@ -126,7 +141,7 @@ export class Login extends React.Component {
                 <PageButton
                   name="Settings"
                   user={ user }
-                  handler={ () => history.push('/trivia-game/settings') }
+                  handler={ () => this.setState({ openSettings: true }) }
                 />
               </Box>
             </Box>
@@ -163,5 +178,9 @@ Login.propTypes = {
   }).isRequired,
   sendPlayer: PropTypes.func.isRequired,
   sendQuestions: PropTypes.func.isRequired,
-  settings: PropTypes.objectOf(PropTypes.string).isRequired,
+  settings: PropTypes.shape({
+    category: PropTypes.number,
+    difficulty: PropTypes.string,
+    type: PropTypes.string,
+  }).isRequired,
 };

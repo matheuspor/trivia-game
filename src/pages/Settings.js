@@ -1,27 +1,41 @@
-import { Button, Container, CssBaseline, Dialog, DialogActions,
-  DialogContent, DialogContentText,
-  DialogTitle, Typography } from '@material-ui/core';
-import { Box } from '@material-ui/system';
+import PropTypes from 'prop-types';
+import { Button, DialogActions,
+  DialogContent, DialogTitle, Typography, Grid, Stack } from '@mui/material';
 import { SettingsOutlined } from '@mui/icons-material';
-import { FormControl, Grid } from '@mui/material';
-import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router';
-import makeSelect from '../components/select';
-import SettingsContext from '../context/SettingsContext';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { fetchQuestions } from '../services/apiHelper';
 import BackdropComp from '../components/Backdrop';
+import { setPlayerSettings } from '../actions';
+import theme from '../theme';
+import ErrorDialog from '../components/ErrorDialog';
+import SettingsSelect from '../components/SettingsSelect';
 
-function Settings() {
-  const history = useHistory();
-  const [open, setOpen] = useState(false);
+function Settings({ handler, sendSettings }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [openError, setOpenError] = useState(false);
   const [settings, setSettings] = useState({
     category: 'All',
     difficulty: 'All',
     type: 'All',
   });
-  const { setNewSetting } = useContext(SettingsContext);
   const categories = JSON.parse(localStorage.getItem('categories'));
+
+  function handleClick() {
+    sendSettings(settings);
+    setOpenBackdrop(true);
+    const token = localStorage.getItem('token');
+    fetchQuestions(token, settings)
+      .then((questions) => {
+        if (!questions.length) {
+          setOpenError(true);
+          setOpenBackdrop(false);
+        } else {
+          handler(false);
+          setOpenBackdrop(false);
+        }
+      });
+  }
 
   function handleChange({ target: { name, value } }) {
     if (name === 'category') {
@@ -37,94 +51,69 @@ function Settings() {
     }
   }
 
-  function redirect() {
-    setOpenBackdrop(true);
-    setNewSetting(settings);
-    const token = localStorage.getItem('token');
-    fetchQuestions(token, settings)
-      .then((questions) => {
-        if (!questions.length) {
-          setOpen(true);
-          setOpenBackdrop(false);
-        } else {
-          history.push('/trivia-game');
-        }
-      });
-  }
-
-  const makeDialog = () => (
-    <Dialog
-      open={ open }
-      onClose={ () => setOpen(false) }
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">
-        Error: Unable to find questions with the current settings.
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Please change the Category, Difficulty and/or Type.
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          onClick={ () => setOpen(false) }
-          autofocus
-        >
-          Close
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-
   return (
-    <Container component="main">
-      <CssBaseline />
-      <BackdropComp open={ openBackdrop } />
-      <Box
-        sx={ {
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        } }
-      >
+    <>
+      <DialogTitle dividers id="alert-dialog-title">
         <Grid
           container
           direction="row"
           alignItems="center"
           justifyContent="center"
-          sx={ { mb: 2, mt: -2 } }
+          sx={ { mb: 2 } }
         >
-          <Typography variant="h2">
+          <Typography variant="h3">
             Settings
           </Typography>
           <SettingsOutlined sx={ { fontSize: 55 } } />
         </Grid>
-        <Box component="form" noValidate sx={ { mt: 1 } }>
-          <FormControl sx={ { m: 1, minWidth: 120 } }>
-            {makeSelect('category', categories, handleChange) }
-            <br />
-            {makeSelect('difficulty', ['Easy', 'Medium', 'Hard'], handleChange)}
-            <br />
-            {makeSelect('type', ['Multiple', 'True/False'], handleChange)}
-            <br />
-          </FormControl>
-        </Box>
+      </DialogTitle>
+      <DialogContent>
+        <Stack spacing={ 3 } sx={ { my: 1 } }>
+          <SettingsSelect
+            name="category"
+            values={ categories }
+            handler={ handleChange }
+          />
+          <SettingsSelect
+            name="difficulty"
+            values={ ['Easy', 'Medium', 'Hard'] }
+            handler={ handleChange }
+          />
+          <SettingsSelect
+            name="type"
+            values={ ['Multiple', 'True/False'] }
+            handler={ handleChange }
+          />
+        </Stack>
+      </DialogContent>
+      <DialogActions>
         <Button
-          type="button"
-          onClick={ redirect }
           variant="contained"
+          type="button"
+          onClick={ handleClick }
+          autofocus
           size="medium"
           color="primary"
+          sx={ {
+            '&:hover': { backgroundColor: theme.palette.secondary.main },
+          } }
         >
-          Return
+          Save
         </Button>
-      </Box>
-      {makeDialog()}
-    </Container>
+      </DialogActions>
+      <ErrorDialog openError={ openError } setOpenError={ setOpenError } />
+      <BackdropComp open={ openBackdrop } />
+    </>
   );
 }
 
-export default Settings;
+const mapDispatchToProps = (dispatch) => ({
+  sendSettings: (payload) => dispatch(setPlayerSettings(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Settings);
+
+Settings.propTypes = {
+  handler: PropTypes.func.isRequired,
+  sendSettings: PropTypes.func.isRequired,
+};
