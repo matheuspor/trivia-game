@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-max-depth */
 /* eslint-disable max-lines */
-import TimerIcon from '@mui/icons-material/Timer';
 import { Container, Typography, Avatar,
   Paper, Button, CircularProgress, CssBaseline, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
+import { TimerTwoTone } from '@mui/icons-material';
 
 const ONE_SECOND = 1000;
 const ONE_PERCENT = 3.33;
@@ -208,7 +208,7 @@ export class Game extends React.Component {
             justifyContent: 'center',
           } }
         >
-          <TimerIcon sx={ { fontSize: 20 } } />
+          <TimerTwoTone sx={ { fontSize: 20 } } />
         </Box>
         <CircularProgress
           variant="determinate"

@@ -29,7 +29,7 @@ const styles = () => ({
   },
 });
 
-export class Login extends React.Component {
+export class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     const { player: { name, email } } = this.props;
@@ -163,9 +163,11 @@ const mapDispatchToProps = (dispatch) => ({
   sendPlayer: (payload) => dispatch(setPlayerInfo(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withStyles(styles)(LoginPage),
+);
 
-Login.propTypes = {
+LoginPage.propTypes = {
   classes: PropTypes.shape({
     logo: PropTypes.string,
   }).isRequired,
