@@ -59,12 +59,11 @@ function Settings({ handler, sendSettings }) {
           direction="row"
           alignItems="center"
           justifyContent="center"
-          sx={ { mb: 2 } }
         >
-          <Typography variant="h3">
+          <Typography variant="h2" sx={ { fontSize: 42 } }>
             Settings
           </Typography>
-          <SettingsOutlined sx={ { fontSize: 55 } } />
+          <SettingsOutlined sx={ { fontSize: 50 } } />
         </Grid>
       </DialogTitle>
       <DialogContent>

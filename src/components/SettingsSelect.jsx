@@ -9,7 +9,6 @@ export default function SettingsSelect({ name, values, handler }) {
       select
       label={ `${name[0].toUpperCase()}${name.substr(1)}` }
       name={ name }
-      sx={ { minWidth: 300 } }
     >
       <MenuItem value="All">
         All
