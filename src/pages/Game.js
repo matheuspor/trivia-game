@@ -1,15 +1,13 @@
-/* eslint-disable react/jsx-max-depth */
-/* eslint-disable max-lines */
-import { Container, Typography, Avatar,
-  Paper, Button, CircularProgress, CssBaseline, Box } from '@mui/material';
+import { Container, Typography, Avatar, CssBaseline, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
-import { TimerTwoTone } from '@mui/icons-material';
+import TimeCounter from '../components/TimeCounter';
+import { updateLocalStorage, updateRanking } from '../services/apiHelper';
+import { QuestionBody } from '../components/QuestionBody';
 
 const ONE_SECOND = 1000;
-const ONE_PERCENT = 3.33;
 
 const styles = () => ({
   disabledGreen: {
@@ -40,31 +38,22 @@ export class Game extends React.Component {
 
     this.handleClick = this.handleClick.bind(this);
     this.setTimer = this.setTimer.bind(this);
+    this.nextButton = this.nextButton.bind(this);
   }
 
   componentDidMount() {
+    const { player } = this.props;
     this.setTimer();
-    this.updateLocalStorage();
+    updateLocalStorage(this.state, player);
   }
 
   componentWillUnmount() {
-    const playerInfo = JSON.parse(localStorage.getItem('state'));
-
-    const player = {
-      name: playerInfo.player.name,
-      score: playerInfo.player.score,
-      picture: playerInfo.player.picture,
-    };
-
-    const getRanking = JSON.parse(localStorage.getItem('ranking'));
-    if (getRanking) {
-      localStorage.setItem('ranking', JSON.stringify([...getRanking, player]));
-    } else localStorage.setItem('ranking', JSON.stringify([player]));
+    updateRanking();
   }
 
   handleClick({ target }) {
     const { timer, questionNumber } = this.state;
-    const { questions } = this.props;
+    const { questions, player } = this.props;
     const { difficulty } = questions[questionNumber];
     const baseScore = 10;
 
@@ -81,7 +70,7 @@ export class Game extends React.Component {
           prevstate.PlayerScore + baseScore + timer * obj[difficulty],
         PlayerAssertions: prevstate.PlayerAssertions + 1,
       }), () => {
-        this.updateLocalStorage();
+        updateLocalStorage(this.state, player);
       });
     }
   }
@@ -104,74 +93,6 @@ export class Game extends React.Component {
     }, ONE_SECOND);
   }
 
-  updateLocalStorage() {
-    const { PlayerAssertions, PlayerScore } = this.state;
-    const { player } = this.props;
-
-    const localStorageObj = {
-      player: {
-        name: player.name,
-        assertions: PlayerAssertions,
-        score: PlayerScore,
-        gravatarEmail: player.email,
-        picture: player.avatar,
-      },
-    };
-    localStorage.setItem('state', JSON.stringify(localStorageObj));
-  }
-
-  randomAnswers(questions) {
-    const { questionNumber, clicked } = this.state;
-    const { classes } = this.props;
-    const allQuestions = [
-      questions[questionNumber].correct_answer,
-      ...questions[questionNumber].incorrect_answers,
-    ].sort();
-    return (
-      <Box
-        sx={ {
-          display: 'flex',
-          flexDirection: 'column',
-        } }
-      >
-        {allQuestions.map((question, index) => {
-          if (question === questions[questionNumber].correct_answer) {
-            return (
-              <Button
-                name="correct-answer"
-                variant="outlined"
-                sx={ { my: 1 } }
-                onClick={ this.handleClick }
-                data-testid="correct-answer"
-                disabled={ clicked }
-                id="correct"
-                className={ classes.disabledGreen }
-                key={ index }
-              >
-                {decodeURIComponent(question)}
-              </Button>
-            );
-          }
-          return (
-            <Button
-              variant="outlined"
-              sx={ { my: 1 } }
-              type="button"
-              disabled={ clicked }
-              id={ index }
-              className={ classes.disabledRed }
-              key={ index }
-              data-testid={ `wrong-answer-${index}` }
-              onClick={ this.handleClick }
-            >
-              {decodeURIComponent(question)}
-            </Button>
-          );
-        })}
-      </Box>
-    );
-  }
-
   nextButton(questionNumber) {
     const { history, questions } = this.props;
     if (questionNumber < questions.length - 1) {
@@ -189,62 +110,9 @@ export class Game extends React.Component {
     }
   }
 
-  circularProgressWithLabel(timer) {
-    return (
-      <Box
-        sx={ {
-          position: 'relative', display: 'inline-flex',
-        } }
-      >
-        <Box
-          sx={ {
-            top: 0,
-            left: 0,
-            bottom: 25,
-            right: 0,
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          } }
-        >
-          <TimerTwoTone sx={ { fontSize: 20 } } />
-        </Box>
-        <CircularProgress
-          variant="determinate"
-          value={ timer * ONE_PERCENT }
-          sx={ { color: '#006600' } }
-          size={ 70 }
-          thickness={ 3 }
-        />
-        <Box
-          sx={ {
-            top: 22,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          } }
-        >
-          <Typography
-            sx={ { fontWeight: 600, fontSize: 26 } }
-            variant="h6"
-            component="div"
-            color="text.secondary"
-          >
-            {timer}
-          </Typography>
-        </Box>
-      </Box>
-    );
-  }
-
   render() {
-    const { player, questions } = this.props;
-    const { timer, questionNumber, PlayerScore, clicked } = this.state;
+    const { player, questions, classes } = this.props;
+    const { timer, questionNumber, PlayerScore } = this.state;
 
     return (
       <Container component="main" maxWidth="md" sx={ { pb: 5 } }>
@@ -269,46 +137,16 @@ export class Game extends React.Component {
             variant="h6"
             sx={ { fontWeight: 'regular' } }
           >
-            {PlayerScore}
-            {' '}
-            Points
+            {`${PlayerScore} Points`}
           </Typography>
-          {this.circularProgressWithLabel(timer)}
-          <Paper
-            variant="outlined"
-            sx={ {
-              maxWidth: { xs: '80%' },
-              my: { xs: 1, md: 2 },
-              p: 2,
-              pb: 5,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center' } }
-          >
-            <Paper elevation="3" sx={ { textAlign: 'center', p: 1 } }>
-              <Typography sx={ { fontSize: { xs: 18, md: 20 }, fontWeight: 'bold' } }>
-                {decodeURIComponent(questions[questionNumber].category)}
-              </Typography>
-            </Paper>
-            <Typography
-              variant="h6"
-              sx={ { py: 3, fontWeight: 'regular', textAlign: 'center' } }
-              gutterBottom
-            >
-              {decodeURIComponent(questions[questionNumber].question)}
-            </Typography>
-            {this.randomAnswers(questions)}
-            {clicked && (
-              <Button
-                sx={ { mt: 2 } }
-                variant="contained"
-                data-testid="btn-next"
-                onClick={ () => this.nextButton(questionNumber) }
-              >
-                Next
-              </Button>
-            )}
-          </Paper>
+          <TimeCounter timer={ timer } />
+          <QuestionBody
+            state={ this.state }
+            questions={ questions }
+            classes={ classes }
+            handler={ this.handleClick }
+            nextButton={ this.nextButton }
+          />
         </Box>
         <hr
           style={ {

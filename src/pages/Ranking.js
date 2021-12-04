@@ -62,7 +62,7 @@ export default class Ranking extends React.Component {
             && getRanking.sort((lower, greater) => greater.score - lower.score)
               .map((user, index) => (
                 index < TOP_10 && (
-                  <ListItem key={ index }>
+                  <ListItem key={ index } divider>
                     <Typography variant="h6" sx={ { fontSize: 18, mr: 1 } }>
                       {index + 1}
                     </Typography>

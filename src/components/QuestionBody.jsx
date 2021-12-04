@@ -1,0 +1,114 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Box } from '@mui/system';
+import { Button, Paper, Typography } from '@mui/material';
+
+export class QuestionBody extends React.Component {
+  randomAnswers(questions) {
+    const { handler, classes, state: { questionNumber, clicked } } = this.props;
+    const allQuestions = [
+      questions[questionNumber].correct_answer,
+      ...questions[questionNumber].incorrect_answers,
+    ].sort();
+    return (
+      <Box
+        sx={ {
+          display: 'flex',
+          flexDirection: 'column',
+        } }
+      >
+        {allQuestions.map((question, index) => {
+          if (question === questions[questionNumber].correct_answer) {
+            return (
+              <Button
+                name="correct-answer"
+                variant="outlined"
+                sx={ { my: 1 } }
+                onClick={ handler }
+                data-testid="correct-answer"
+                disabled={ clicked }
+                id="correct"
+                className={ classes.disabledGreen }
+                key={ index }
+              >
+                {decodeURIComponent(question)}
+              </Button>
+            );
+          }
+          return (
+            <Button
+              variant="outlined"
+              sx={ { my: 1 } }
+              type="button"
+              disabled={ clicked }
+              id={ index }
+              className={ classes.disabledRed }
+              key={ index }
+              data-testid={ `wrong-answer-${index}` }
+              onClick={ handler }
+            >
+              {decodeURIComponent(question)}
+            </Button>
+          );
+        })}
+      </Box>
+    );
+  }
+
+  render() {
+    const { nextButton, questions, state: { questionNumber, clicked } } = this.props;
+    return (
+      <Paper
+        variant="outlined"
+        sx={ {
+          maxWidth: { xs: '80%' },
+          my: { xs: 1, md: 2 },
+          p: 2,
+          pb: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center' } }
+      >
+        <Paper elevation="3" sx={ { textAlign: 'center', p: 1 } }>
+          <Typography sx={ { fontSize: { xs: 18, md: 20 }, fontWeight: 'bold' } }>
+            {decodeURIComponent(questions[questionNumber].category)}
+          </Typography>
+        </Paper>
+        <Typography
+          variant="h6"
+          sx={ { py: 3, fontWeight: 'regular', textAlign: 'center' } }
+          gutterBottom
+        >
+          {decodeURIComponent(questions[questionNumber].question)}
+        </Typography>
+        {this.randomAnswers(questions)}
+        {clicked && (
+          <Button
+            sx={ { mt: 2 } }
+            variant="contained"
+            data-testid="btn-next"
+            onClick={ () => nextButton(questionNumber) }
+          >
+            Next
+          </Button>
+        )}
+      </Paper>
+    );
+  }
+}
+
+QuestionBody.propTypes = {
+  classes: PropTypes.shape({
+    disabledGreen: PropTypes.string,
+    disabledRed: PropTypes.string,
+  }).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  state: PropTypes.shape({
+    clicked: PropTypes.bool.isRequired,
+    questionNumber: PropTypes.number,
+  }).isRequired,
+  handler: PropTypes.func.isRequired,
+  nextButton: PropTypes.func.isRequired,
+};
+
+export default (QuestionBody);

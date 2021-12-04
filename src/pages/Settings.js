@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Button, DialogActions,
-  DialogContent, DialogTitle, Typography, Grid, Stack } from '@mui/material';
+  DialogContent, DialogTitle, Typography, Grid, Stack, Dialog } from '@mui/material';
 import { SettingsOutlined } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
@@ -11,7 +11,7 @@ import theme from '../theme';
 import ErrorDialog from '../components/ErrorDialog';
 import SettingsSelect from '../components/SettingsSelect';
 
-function Settings({ handler, sendSettings }) {
+function Settings({ handler, sendSettings, openSettings }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [settings, setSettings] = useState({
@@ -52,7 +52,7 @@ function Settings({ handler, sendSettings }) {
   }
 
   return (
-    <>
+    <Dialog open={ openSettings }>
       <DialogTitle dividers id="alert-dialog-title">
         <Grid
           container
@@ -102,7 +102,7 @@ function Settings({ handler, sendSettings }) {
       </DialogActions>
       <ErrorDialog openError={ openError } setOpenError={ setOpenError } />
       <BackdropComp open={ openBackdrop } />
-    </>
+    </Dialog>
   );
 }
 
@@ -115,4 +115,5 @@ export default connect(null, mapDispatchToProps)(Settings);
 Settings.propTypes = {
   handler: PropTypes.func.isRequired,
   sendSettings: PropTypes.func.isRequired,
+  openSettings: PropTypes.bool.isRequired,
 };
