@@ -126,7 +126,7 @@ export class Game extends React.Component {
           } }
         >
           <Avatar
-            sx={ { height: 50, width: 60 } }
+            sx={ { height: 60, width: 60 } }
             src={ player.avatar }
             alt="Player Image Avatar"
           />
