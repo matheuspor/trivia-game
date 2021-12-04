@@ -3,8 +3,7 @@ import React
   from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { Container, CssBaseline, Box,
-  Dialog } from '@mui/material';
+import { Container, CssBaseline, Box } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
@@ -88,25 +87,16 @@ export class LoginPage extends React.Component {
       });
   }
 
-  makeDialog() {
-    const { openSettings } = this.state;
-    const handleSetting = (value) => this.setState({ openSettings: value });
-    return (
-      <Dialog
-        open={ openSettings }
-      >
-        <Settings openSettings={ openSettings } handler={ handleSetting } />
-      </Dialog>
-    );
-  }
-
   render() {
     const { classes } = this.props;
-    const { user, openBackdrop } = this.state;
+    const { user, openBackdrop, openSettings } = this.state;
     return (
       <Container component="main" maxWidth="xs">
         <BackdropComp open={ openBackdrop } />
-        {this.makeDialog()}
+        <Settings
+          openSettings={ openSettings }
+          handler={ (value) => this.setState({ openSettings: value }) }
+        />
         {openBackdrop || (
           <>
             <CssBaseline />
