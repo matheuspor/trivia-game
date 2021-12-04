@@ -2,7 +2,6 @@ import { Avatar,
   Button,
   Container,
   CssBaseline,
-  Divider,
   Grid,
   List,
   ListItem,
@@ -63,37 +62,33 @@ export default class Ranking extends React.Component {
             && getRanking.sort((lower, greater) => greater.score - lower.score)
               .map((user, index) => (
                 index < TOP_10 && (
-                  <>
-                    <ListItem key={ index }>
-                      <ListItemText>
-                        <Typography sx={ { fontWeight: '600' } }>
-                          {index + 1}
-                        </Typography>
-                      </ListItemText>
-                      <ListItemAvatar sx={ { ml: 1 } }>
-                        <Avatar
-                          sx={ { width: 45, height: 45 } }
-                          src={ user.picture }
-                        />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={ user.name }
-                        secondary={
-                          <Typography
-                            sx={ { display: 'inline', fontWeight: 'bold' } }
-                            component="span"
-                            variant="body2"
-                            color="text.primary"
-                          >
-                            {user.score}
-                            {' '}
-                            Points
-                          </Typography>
-                        }
+                  <ListItem key={ index }>
+                    <Typography variant="h6" sx={ { fontSize: 18, mr: 1 } }>
+                      {index + 1}
+                    </Typography>
+                    <ListItemAvatar sx={ { ml: 1 } }>
+                      <Avatar
+                        sx={ { width: 45, height: 45 } }
+                        src={ user.picture }
                       />
-                    </ListItem>
-                    <Divider component="li" />
-                  </>)
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={ user.name }
+                      secondary={
+                        <Typography
+                          sx={ { display: 'inline', fontWeight: 'bold' } }
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          {user.score}
+                          {' '}
+                          Points
+                        </Typography>
+                      }
+                    />
+                  </ListItem>
+                )
               ))}
             </List>
             <Button
