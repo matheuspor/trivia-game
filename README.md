@@ -1,6 +1,6 @@
 # Trivia-game React Web App
 
-Web based Javascript / HTML5 Quiz game built with React, Redux and Material UI using API-fed questions from the [Open TriviaDB API](https://opentdb.com/) 
+Web based Javascript / HTML5 Quiz game built with React, Redux and Material UI using Fetch-API to grab questions from the [Open TriviaDB API](https://opentdb.com/) 
 
 ## Live Demo
 [Trivia Game Live Demo](https://matheuspor.github.io/trivia-game/).
