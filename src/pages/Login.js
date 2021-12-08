@@ -3,7 +3,7 @@ import React
   from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { Container, CssBaseline, Box } from '@mui/material';
+import { Container, CssBaseline, Box, Stack } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
@@ -98,45 +98,36 @@ export class LoginPage extends React.Component {
           handler={ (value) => this.setState({ openSettings: value }) }
         />
         {openBackdrop || (
-          <>
+          <Stack spacing={ 3 } sx={ { my: 5 } }>
             <CssBaseline />
+            <img src={ logo } className={ classes.logo } alt="logo" />
             <Box
-              sx={ {
-                mt: 6,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              } }
+              component="form"
+              onSubmit={ this.handleSubmit }
+              sx={ { mt: 2 } }
             >
-              <img src={ logo } className={ classes.logo } alt="logo" />
-              <Box
-                component="form"
-                onSubmit={ this.handleSubmit }
-                sx={ { mt: 2 } }
-              >
-                <PageInput
-                  name="name"
-                  value={ user.name }
-                  handler={ this.handleChange }
-                />
-                <PageInput
-                  name="email"
-                  value={ user.email }
-                  handler={ this.handleChange }
-                />
-                <PageButton
-                  name="Play"
-                  user={ user }
-                />
-                <PageButton
-                  name="Settings"
-                  user={ user }
-                  handler={ () => this.setState({ openSettings: true }) }
-                />
-              </Box>
+              <PageInput
+                name="name"
+                value={ user.name }
+                handler={ this.handleChange }
+              />
+              <PageInput
+                name="email"
+                value={ user.email }
+                handler={ this.handleChange }
+              />
+              <PageButton
+                name="Play"
+                user={ user }
+              />
+              <PageButton
+                name="Settings"
+                user={ user }
+                handler={ () => this.setState({ openSettings: true }) }
+              />
             </Box>
             <Footer />
-          </>
+          </Stack>
         )}
       </Container>
     );

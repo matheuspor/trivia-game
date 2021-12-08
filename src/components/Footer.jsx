@@ -12,7 +12,7 @@ export default function Footer() {
         align="center"
       >
         {'© '}
-        <Link color="text.primary" target="_blank" href="https://github.com/matheuspor">
+        <Link color="text.primary" target="_blank" href="https://github.com/matheuspor/trivia-game">
           matheuspor
         </Link>
         {' 2021'}
