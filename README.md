@@ -1,8 +1,9 @@
-# Getting Started with Create React App
+# Trivia-game React Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Web based Javascript / HTML5 Quiz game built with React, Redux and Material UI using Fetch-API to grab questions from the [Open TriviaDB API](https://opentdb.com/) 
 
-Live on [Github Pages](https://matheuspor.github.io/trivia-game/).
+## Live Demo
+[Trivia Game Live Demo](https://matheuspor.github.io/trivia-game/).
 
 ## Available Scripts
 
