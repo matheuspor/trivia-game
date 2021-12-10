@@ -92,17 +92,17 @@ export class LoginPage extends React.Component {
     return (
       <Container component="main" maxWidth="xs">
         <>
+          <BackdropComp open={ openBackdrop } />
+          <Settings
+            openSettings={ openSettings }
+            handler={ (value) => this.setState({ openSettings: value }) }
+          />
+          <CssBaseline />
           {openBackdrop || (
             <Box
               component="form"
               onSubmit={ this.handleSubmit }
             >
-              <BackdropComp open={ openBackdrop } />
-              <Settings
-                openSettings={ openSettings }
-                handler={ (value) => this.setState({ openSettings: value }) }
-              />
-              <CssBaseline />
               <Stack spacing={ 3 } sx={ { my: 4 } }>
                 <img src={ logo } className={ classes.logo } alt="logo" />
                 <TextField
@@ -146,9 +146,9 @@ export class LoginPage extends React.Component {
                   Settings
                 </Button>
               </Stack>
+              <Footer />
             </Box>
           )}
-          <Footer />
         </>
       </Container>
     );
