@@ -90,7 +90,7 @@ export class LoginPage extends React.Component {
     const { classes } = this.props;
     const { user, openBackdrop, openSettings } = this.state;
     return (
-      <Container>
+      <Container maxWidth="xs">
         <>
           {openBackdrop || (
             <Box
