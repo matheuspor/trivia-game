@@ -15,11 +15,11 @@ function Settings({ handler, sendSettings, openSettings }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [settings, setSettings] = useState({
-    category: 'All',
+    category: 200,
     difficulty: 'All',
     type: 'All',
   });
-  const categories = JSON.parse(localStorage.getItem('categories'));
+  const categories = JSON.parse(localStorage.getItem('categories')).trivia_categories;
 
   function handleClick() {
     sendSettings(settings);
@@ -39,7 +39,7 @@ function Settings({ handler, sendSettings, openSettings }) {
 
   function handleChange({ target: { name, value } }) {
     if (name === 'category') {
-      const cat = categories.trivia_categories
+      const cat = categories
         .find((category) => category.name === value);
       setSettings({ ...settings,
         [name]: cat ? cat.id : 'All',

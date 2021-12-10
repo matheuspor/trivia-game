@@ -3,15 +3,14 @@ import React
   from 'react';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { Container, CssBaseline, Box, Stack } from '@mui/material';
+import { CssBaseline, Box, Stack, Button,
+  TextField, Link, Container } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../actions';
 import '../App.css';
 import logo from '../trivia.png';
 import { fetchCategories, fetchPlayerImg, fetchPlayerToken,
   fetchQuestions } from '../services/apiHelper';
-import PageButton from '../components/PageButton';
-import PageInput from '../components/PageInput';
 import theme from '../theme';
 import Footer from '../components/Footer';
 import BackdropComp from '../components/Backdrop';
@@ -91,44 +90,66 @@ export class LoginPage extends React.Component {
     const { classes } = this.props;
     const { user, openBackdrop, openSettings } = this.state;
     return (
-      <Container component="main" maxWidth="xs">
-        <BackdropComp open={ openBackdrop } />
-        <Settings
-          openSettings={ openSettings }
-          handler={ (value) => this.setState({ openSettings: value }) }
-        />
-        {openBackdrop || (
-          <Stack spacing={ 3 } sx={ { my: 5 } }>
-            <CssBaseline />
-            <img src={ logo } className={ classes.logo } alt="logo" />
+      <Container>
+        <>
+          {openBackdrop || (
             <Box
               component="form"
               onSubmit={ this.handleSubmit }
-              sx={ { mt: 2 } }
             >
-              <PageInput
-                name="name"
-                value={ user.name }
-                handler={ this.handleChange }
+              <BackdropComp open={ openBackdrop } />
+              <Settings
+                openSettings={ openSettings }
+                handler={ (value) => this.setState({ openSettings: value }) }
               />
-              <PageInput
-                name="email"
-                value={ user.email }
-                handler={ this.handleChange }
-              />
-              <PageButton
-                name="Play"
-                user={ user }
-              />
-              <PageButton
-                name="Settings"
-                user={ user }
-                handler={ () => this.setState({ openSettings: true }) }
-              />
+              <CssBaseline />
+              <Stack spacing={ 3 } sx={ { my: 4 } }>
+                <img src={ logo } className={ classes.logo } alt="logo" />
+                <TextField
+                  name="name"
+                  type="text"
+                  label="Name:"
+                  value={ user.name }
+                  autoComplete="name"
+                  onChange={ this.handleChange }
+                  required
+                />
+                <TextField
+                  name="email"
+                  type="email"
+                  label="Gravatar email:"
+                  value={ user.email }
+                  autoComplete="email"
+                  onChange={ this.handleChange }
+                  helperText={
+                    <Link href="https://en.gravatar.com/" target="_blank" underline="always">
+                      Gravatar
+                    </Link>
+                  }
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  disabled={ !user.name }
+                  variant="contained"
+                  color="primary"
+                >
+                  Play
+                </Button>
+                <Button
+                  type="button"
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  onClick={ () => this.setState({ openSettings: true }) }
+                >
+                  Settings
+                </Button>
+              </Stack>
             </Box>
-            <Footer />
-          </Stack>
-        )}
+          )}
+          <Footer />
+        </>
       </Container>
     );
   }

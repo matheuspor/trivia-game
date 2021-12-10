@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   },
   questions: '',
   settings: {
-    category: 'All',
+    category: 200,
     difficulty: 'All',
     type: 'All',
   },

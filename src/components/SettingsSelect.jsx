@@ -14,7 +14,7 @@ export default function SettingsSelect({ name, values, handler }) {
         All
       </MenuItem>
       {name === 'category' ? (
-        values.trivia_categories.map((category) => (
+        values.map((category) => (
           <MenuItem key={ category.id } value={ category.name }>
             {category.name}
           </MenuItem>
@@ -42,10 +42,7 @@ export default function SettingsSelect({ name, values, handler }) {
 SettingsSelect.propTypes = {
   handler: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  values: PropTypes.shape({
-    map: PropTypes.func,
-    trivia_categories: PropTypes.shape({
-      map: PropTypes.func,
-    }).isRequired,
-  }).isRequired,
+  values: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object])).isRequired,
 };
