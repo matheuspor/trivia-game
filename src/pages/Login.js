@@ -90,7 +90,7 @@ export class LoginPage extends React.Component {
     const { classes } = this.props;
     const { user, openBackdrop, openSettings } = this.state;
     return (
-      <Container maxWidth="xs">
+      <Container component="main" maxWidth="xs">
         <>
           {openBackdrop || (
             <Box
@@ -183,7 +183,7 @@ LoginPage.propTypes = {
   sendPlayer: PropTypes.func.isRequired,
   sendQuestions: PropTypes.func.isRequired,
   settings: PropTypes.shape({
-    category: PropTypes.number,
+    category: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     difficulty: PropTypes.string,
     type: PropTypes.string,
   }).isRequired,

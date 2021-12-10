@@ -15,7 +15,7 @@ function Settings({ handler, sendSettings, openSettings }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [settings, setSettings] = useState({
-    category: 200,
+    category: 'All',
     difficulty: 'All',
     type: 'All',
   });
