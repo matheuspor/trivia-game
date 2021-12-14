@@ -4,12 +4,12 @@ import { Button, DialogActions,
 import { SettingsOutlined } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchQuestions } from '../services/apiHelper';
-import BackdropComp from '../components/Backdrop';
-import { setPlayerSettings } from '../actions';
-import theme from '../theme';
-import ErrorDialog from '../components/ErrorDialog';
-import SettingsSelect from '../components/SettingsSelect';
+import { fetchQuestions } from '../../services/apiHelper';
+import BackdropComp from '../../components/Backdrop';
+import theme from '../../theme';
+import ErrorDialog from '../../components/ErrorDialog';
+import SettingsSelect from '../../components/SettingsSelect';
+import { setPlayerSettings } from '../../store/actions';
 
 function Settings({ handler, sendSettings, openSettings }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
@@ -19,7 +19,7 @@ function Settings({ handler, sendSettings, openSettings }) {
     difficulty: 'All',
     type: 'All',
   });
-  const categories = JSON.parse(localStorage.getItem('categories')).trivia_categories;
+  const categories = JSON.parse(localStorage.getItem('categories'));
 
   function handleClick() {
     sendSettings(settings);

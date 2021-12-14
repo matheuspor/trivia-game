@@ -1,11 +1,11 @@
-import { Container, Typography, Avatar, CssBaseline, Box } from '@mui/material';
+import { Container, Typography, Avatar, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
-import TimeCounter from '../components/TimeCounter';
-import { updateLocalStorage, updateRanking } from '../services/apiHelper';
-import { QuestionBody } from '../components/QuestionBody';
+import { connect } from 'react-redux';
+import TimeCounter from '../../components/TimeCounter';
+import { updateLocalStorage, updateRanking } from '../../services/apiHelper';
+import { QuestionBody } from '../../components/QuestionBody';
 
 const ONE_SECOND = 1000;
 
@@ -116,7 +116,6 @@ export class Game extends React.Component {
 
     return (
       <Container component="main" maxWidth="md" sx={ { pb: 5 } }>
-        <CssBaseline />
         <Box
           sx={ {
             marginTop: 2,
@@ -185,9 +184,9 @@ Game.propTypes = {
   questions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  questions: state.user.questions,
-  player: state.user.player,
+const mapStateToProps = ({ user: { player, questions } }) => ({
+  player,
+  questions,
 });
 
 export default connect(mapStateToProps)(withStyles(styles)(Game));
