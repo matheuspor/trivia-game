@@ -1,3 +1,7 @@
+import md5 from 'crypto-js/md5';
+
+const GRAVATAR_URL = 'https://www.gravatar.com/avatar/';
+
 export const fetchPlayerToken = async () => {
   const request = await fetch('https://opentdb.com/api_token.php?command=request')
     .then((response) => response.json())
@@ -5,9 +9,12 @@ export const fetchPlayerToken = async () => {
   return request;
 };
 
-export const fetchPlayerImg = async (hash) => {
-  const request = await fetch(`https://www.gravatar.com/avatar/${hash}`);
-  return request;
+export const fetchSetPlayerImg = async (user) => {
+  const hash = md5(user.email).toString();
+  const avatar = await fetch(`${GRAVATAR_URL}${hash}`).then((url) => url.url);
+
+  const newUser = { ...user, avatar };
+  return newUser;
 };
 
 export const fetchQuestions = async (token, settings) => {
@@ -26,7 +33,8 @@ export const fetchQuestions = async (token, settings) => {
 
 export const fetchCategories = () => fetch('https://opentdb.com/api_category.php')
   .then((response) => response.json())
-  .then((categories) => localStorage.setItem('categories', JSON.stringify(categories)));
+  .then((categories) => localStorage.setItem('categories',
+    JSON.stringify(categories.trivia_categories)));
 
 export const updateLocalStorage = ({ PlayerAssertions, PlayerScore }, player) => {
   const localStorageObj = {

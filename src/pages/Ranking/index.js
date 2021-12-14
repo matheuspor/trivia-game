@@ -1,7 +1,6 @@
 import { Avatar,
   Button,
   Container,
-  CssBaseline,
   Grid,
   List,
   ListItem,
@@ -26,7 +25,6 @@ export default class Ranking extends React.Component {
     const { history } = this.props;
     return (
       <Container component="main">
-        <CssBaseline />
         <Box
           sx={ {
             display: 'flex',

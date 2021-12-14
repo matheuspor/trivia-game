@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-max-depth */
 import PropTypes from 'prop-types';
 import { Avatar, Button, Container, Grid,
-  Paper, Typography, CssBaseline, Box } from '@mui/material';
+  Paper, Typography, Box } from '@mui/material';
 import React, { Component } from 'react';
 
 export default class Feedback extends Component {
@@ -12,7 +12,6 @@ export default class Feedback extends Component {
     const { history } = this.props;
     return (
       <Container component="main" maxWidth="md" sx={ { pb: 5 } }>
-        <CssBaseline />
         <Box
           sx={ {
             marginTop: 2,
