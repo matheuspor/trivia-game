@@ -12,6 +12,7 @@ import BackdropComp from '../../components/Backdrop';
 import logo from '../../assets/trivia.png';
 import styles from './styles';
 import Settings from '../Settings';
+import '../../App.css';
 
 export class LoginPage extends React.Component {
   constructor(props) {
