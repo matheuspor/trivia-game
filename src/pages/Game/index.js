@@ -6,24 +6,9 @@ import { connect } from 'react-redux';
 import TimeCounter from '../../components/TimeCounter';
 import { updateLocalStorage, updateRanking } from '../../services/apiHelper';
 import { QuestionBody } from '../../components/QuestionBody';
+import styles from './styles';
 
 const ONE_SECOND = 1000;
-
-const styles = () => ({
-  disabledGreen: {
-    '&:disabled': {
-      borderColor: 'black !important',
-      border: '3px solid black !important',
-      background: 'linear-gradient(45deg, #1df401 30%, #1df401 90%)',
-      color: '#212121 !important',
-    },
-  },
-  disabledRed: {
-    '&:disabled': {
-      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    },
-  },
-});
 
 export class Game extends React.Component {
   constructor(props) {
