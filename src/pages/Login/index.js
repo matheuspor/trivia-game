@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../../store/actions';
 import { fetchCategories, fetchPlayerToken,
   fetchQuestions, fetchSetPlayerImg } from '../../services/apiHelper';
-import Footer from '../../components/Footer';
+import Footer from './Footer/Footer';
 import BackdropComp from '../../components/Backdrop';
 import logo from '../../assets/trivia.png';
 import styles from './styles';
@@ -73,7 +73,7 @@ export class LoginPage extends React.Component {
           <BackdropComp open={ openBackdrop } />
           <Settings
             openSettings={ openSettings }
-            handler={ (value) => this.setState({ openSettings: value }) }
+            setOpenSettings={ (value) => this.setState({ openSettings: value }) }
           />
           {openBackdrop || (
             <Stack

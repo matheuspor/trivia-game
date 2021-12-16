@@ -1,36 +1,20 @@
-import { Avatar,
-  Button,
-  Container,
-  Grid,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Paper,
-  Typography } from '@mui/material';
+import { Avatar, Button, Container, Grid, List, ListItem, ListItemAvatar,
+  ListItemText, Paper, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { EmojiEventsTwoTone } from '@mui/icons-material';
-import { Box } from '@mui/system';
 
 export default class Ranking extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
   render() {
     const TOP_10 = 10;
     const getRanking = JSON.parse(localStorage.getItem('ranking'));
     const { history } = this.props;
     return (
       <Container component="main">
-        <Box
+        <Stack
           sx={ {
-            display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
-            mb: 5,
+            my: 4,
           } }
         >
           <Grid
@@ -61,7 +45,7 @@ export default class Ranking extends React.Component {
               .map((user, index) => (
                 index < TOP_10 && (
                   <ListItem key={ index } divider>
-                    <Typography variant="h6" sx={ { fontSize: 18, mr: 1 } }>
+                    <Typography variant="h6" sx={ { fontSize: 18 } }>
                       {index + 1}
                     </Typography>
                     <ListItemAvatar sx={ { ml: 1 } }>
@@ -98,7 +82,7 @@ export default class Ranking extends React.Component {
               Play Again
             </Button>
           </Paper>
-        </Box>
+        </Stack>
       </Container>
     );
   }

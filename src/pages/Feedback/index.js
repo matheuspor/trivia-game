@@ -1,41 +1,39 @@
 /* eslint-disable react/jsx-max-depth */
 import PropTypes from 'prop-types';
 import { Avatar, Button, Container, Grid,
-  Paper, Typography, Box } from '@mui/material';
+  Paper, Typography, Stack } from '@mui/material';
 import React, { Component } from 'react';
 
 export default class Feedback extends Component {
   render() {
     const userData = JSON.parse(localStorage.getItem('state'));
     const THREE_QUESTIONS = 3;
-    const { player } = userData;
+    const { player: { picture, name, score, assertions } } = userData;
     const { history } = this.props;
     return (
       <Container component="main" maxWidth="md" sx={ { pb: 5 } }>
-        <Box
+        <Stack
           sx={ {
-            marginTop: 2,
-            display: 'flex',
-            flexDirection: 'column',
+            my: 4,
             alignItems: 'center',
           } }
         >
-          <Paper sx={ { maxWidth: 400, my: 1, mx: 'auto', p: 2 } }>
+          <Paper sx={ { my: 1, mx: 'auto', p: 2 } }>
             <Grid container spacing={ 2 }>
               <Grid item>
                 <Avatar
                   data-testid="header-profile-picture"
-                  src={ player.picture }
+                  src={ picture }
                   alt="avatar"
                 />
               </Grid>
-              <Grid item xs>
+              <Grid item>
                 <Typography
                   sx={ { fontWeight: 'bold' } }
                   variant="h6"
                   color="text.secondary"
                 >
-                  {player.name}
+                  {name}
                 </Typography>
               </Grid>
             </Grid>
@@ -53,7 +51,7 @@ export default class Feedback extends Component {
                 variant="h5"
                 color="text.primary"
               >
-                {`Score: ${player.score} points`}
+                {`Score: ${score} points`}
               </Typography>
             </Paper>
             <Typography
@@ -66,9 +64,9 @@ export default class Feedback extends Component {
                 fontWeight: 'regular' } }
               color="text.primary"
             >
-              {`You scored ${player.assertions} out of 5 questions`}
+              {`You scored ${assertions} out of 5 questions`}
             </Typography>
-            {player.assertions >= THREE_QUESTIONS
+            {assertions >= THREE_QUESTIONS
                 && (
                   <Typography
                     sx={ { mb: 2,
@@ -101,7 +99,7 @@ export default class Feedback extends Component {
               Ranking
             </Button>
           </Paper>
-        </Box>
+        </Stack>
       </Container>
     );
   }

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Box } from '@mui/system';
-import { Button, Paper, Typography } from '@mui/material';
+import { Button, Paper, Stack, Typography } from '@mui/material';
 
 export class QuestionBody extends React.Component {
   randomAnswers(questions) {
@@ -11,19 +10,13 @@ export class QuestionBody extends React.Component {
       ...questions[questionNumber].incorrect_answers,
     ].sort();
     return (
-      <Box
-        sx={ {
-          display: 'flex',
-          flexDirection: 'column',
-        } }
-      >
+      <Stack spacing={ 2 }>
         {allQuestions.map((question, index) => {
           if (question === questions[questionNumber].correct_answer) {
             return (
               <Button
                 name="correct-answer"
                 variant="outlined"
-                sx={ { my: 1 } }
                 onClick={ handler }
                 data-testid="correct-answer"
                 disabled={ clicked }
@@ -38,7 +31,6 @@ export class QuestionBody extends React.Component {
           return (
             <Button
               variant="outlined"
-              sx={ { my: 1 } }
               type="button"
               disabled={ clicked }
               id={ index }
@@ -51,7 +43,7 @@ export class QuestionBody extends React.Component {
             </Button>
           );
         })}
-      </Box>
+      </Stack>
     );
   }
 

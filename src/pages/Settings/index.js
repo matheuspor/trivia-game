@@ -7,11 +7,11 @@ import { connect } from 'react-redux';
 import { fetchQuestions } from '../../services/apiHelper';
 import BackdropComp from '../../components/Backdrop';
 import theme from '../../theme';
-import ErrorDialog from '../../components/ErrorDialog';
-import SettingsSelect from '../../components/SettingsSelect';
+import SettingsSelect from './SettingsSelect';
 import { setPlayerSettings } from '../../store/actions';
+import ErrorDialog from './ErrorDialog';
 
-function Settings({ handler, sendSettings, openSettings }) {
+function Settings({ setOpenSettings, sendSettings, openSettings }) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [openError, setOpenError] = useState(false);
   const [settings, setSettings] = useState({
@@ -31,7 +31,7 @@ function Settings({ handler, sendSettings, openSettings }) {
           setOpenError(true);
           setOpenBackdrop(false);
         } else {
-          handler(false);
+          setOpenSettings(false);
           setOpenBackdrop(false);
         }
       });
@@ -67,7 +67,7 @@ function Settings({ handler, sendSettings, openSettings }) {
         </Grid>
       </DialogTitle>
       <DialogContent>
-        <Stack spacing={ 3 } sx={ { my: 1 } }>
+        <Stack spacing={ 3 } sx={ { mt: 1 } }>
           <SettingsSelect
             name="category"
             values={ categories }
@@ -113,7 +113,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(null, mapDispatchToProps)(Settings);
 
 Settings.propTypes = {
-  handler: PropTypes.func.isRequired,
+  setOpenSettings: PropTypes.func.isRequired,
   sendSettings: PropTypes.func.isRequired,
   openSettings: PropTypes.bool.isRequired,
 };

@@ -1,12 +1,12 @@
-import { Container, Typography, Avatar, Box } from '@mui/material';
+import { Container, Typography, Avatar, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
-import TimeCounter from '../../components/TimeCounter';
-import { updateLocalStorage, updateRanking } from '../../services/apiHelper';
-import { QuestionBody } from '../../components/QuestionBody';
+import TimeCounter from './TimeCounter';
+import { updateLocalStorage, updateRanking } from '../../services/helperServices';
 import styles from './styles';
+import { QuestionBody } from './QuestionBody';
 
 const ONE_SECOND = 1000;
 
@@ -101,11 +101,9 @@ export class Game extends React.Component {
 
     return (
       <Container component="main" maxWidth="md" sx={ { pb: 5 } }>
-        <Box
+        <Stack
           sx={ {
-            marginTop: 2,
-            display: 'flex',
-            flexDirection: 'column',
+            my: 4,
             alignItems: 'center',
           } }
         >
@@ -131,7 +129,7 @@ export class Game extends React.Component {
             handler={ this.handleClick }
             nextButton={ this.nextButton }
           />
-        </Box>
+        </Stack>
         <hr
           style={ {
             color: '#000000',
