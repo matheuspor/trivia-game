@@ -17,8 +17,8 @@ export class Game extends React.Component {
       clicked: false,
       timer: 30,
       questionNumber: 0,
-      PlayerScore: 0,
-      PlayerAssertions: 0,
+      playerScore: 0,
+      playerAssertions: 0,
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -51,9 +51,9 @@ export class Game extends React.Component {
 
     if (target.name === 'correct-answer') {
       this.setState((prevstate) => ({
-        PlayerScore:
-          prevstate.PlayerScore + baseScore + timer * obj[difficulty],
-        PlayerAssertions: prevstate.PlayerAssertions + 1,
+        playerScore:
+          prevstate.playerScore + baseScore + timer * obj[difficulty],
+        playerAssertions: prevstate.playerAssertions + 1,
       }), () => {
         updateLocalStorage(this.state, player);
       });
@@ -97,7 +97,7 @@ export class Game extends React.Component {
 
   render() {
     const { player, questions, classes } = this.props;
-    const { timer, questionNumber, PlayerScore } = this.state;
+    const { timer, questionNumber, playerScore } = this.state;
 
     return (
       <Container component="main" maxWidth="md" sx={ { pb: 5 } }>
@@ -119,7 +119,7 @@ export class Game extends React.Component {
             variant="h6"
             sx={ { fontWeight: 'regular' } }
           >
-            {`${PlayerScore} Points`}
+            {`${playerScore} Points`}
           </Typography>
           <TimeCounter timer={ timer } />
           <QuestionBody
