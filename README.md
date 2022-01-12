@@ -11,4 +11,4 @@ Front-end webApp build with ReactJS, Redux and Material UI using Fetch-API to gr
 ![alt text](./images/question.png)
 
 ## Settings Page
-![alt text](./images/settings.png)
+![alt text](./images/setting.png)
