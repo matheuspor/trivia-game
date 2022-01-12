@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 
 export default class Feedback extends Component {
   render() {
+    const SMALL_SCREEN_FONT_SIZE = 'h6.fontSize';
     const userData = JSON.parse(localStorage.getItem('state'));
     const THREE_QUESTIONS = 3;
     const { player: { picture, name, score, assertions } } = userData;
@@ -29,7 +30,11 @@ export default class Feedback extends Component {
               </Grid>
               <Grid item>
                 <Typography
-                  sx={ { fontWeight: 'bold' } }
+                  sx={ { fontWeight: 'bold',
+                    fontSize: {
+                      xs: 18,
+                      sm: SMALL_SCREEN_FONT_SIZE,
+                    } } }
                   variant="h6"
                   color="text.secondary"
                 >
@@ -59,7 +64,7 @@ export default class Feedback extends Component {
                 pb: 1,
                 fontSize: {
                   xs: 16,
-                  sm: 'h6.fontSize',
+                  sm: SMALL_SCREEN_FONT_SIZE,
                 },
                 fontWeight: 'regular' } }
               color="text.primary"
@@ -75,7 +80,7 @@ export default class Feedback extends Component {
                       textDecoration: 'underline',
                       fontSize: {
                         xs: 18,
-                        sm: 'h6.fontSize',
+                        sm: SMALL_SCREEN_FONT_SIZE,
                       } } }
                   >
                     Good Job!
