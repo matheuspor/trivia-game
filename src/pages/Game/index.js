@@ -27,9 +27,7 @@ export class Game extends React.Component {
   }
 
   componentDidMount() {
-    const { player } = this.props;
     this.setTimer();
-    updateLocalStorage(this.state, player);
   }
 
   componentWillUnmount() {
@@ -38,7 +36,7 @@ export class Game extends React.Component {
 
   handleClick({ target }) {
     const { timer, questionNumber } = this.state;
-    const { questions, player } = this.props;
+    const { questions } = this.props;
     const { difficulty } = questions[questionNumber];
     const baseScore = 10;
 
@@ -54,9 +52,7 @@ export class Game extends React.Component {
         playerScore:
           prevstate.playerScore + baseScore + timer * obj[difficulty],
         playerAssertions: prevstate.playerAssertions + 1,
-      }), () => {
-        updateLocalStorage(this.state, player);
-      });
+      }));
     }
   }
 
@@ -79,7 +75,7 @@ export class Game extends React.Component {
   }
 
   nextButton(questionNumber) {
-    const { history, questions } = this.props;
+    const { history, questions, player } = this.props;
     if (questionNumber < questions.length - 1) {
       this.setState(
         (prevState) => ({
@@ -91,6 +87,7 @@ export class Game extends React.Component {
         },
       );
     } else {
+      updateLocalStorage(this.state, player);
       history.push('/trivia-game/feedback');
     }
   }

@@ -5,6 +5,7 @@ import React from 'react';
 export default function SettingsSelect({ name, values, handler }) {
   return (
     <TextField
+      defaultValue=""
       onChange={ handler }
       select
       label={ `${name[0].toUpperCase()}${name.substr(1)}` }

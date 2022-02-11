@@ -1,9 +1,9 @@
-export const updateLocalStorage = ({ PlayerAssertions, PlayerScore }, player) => {
+export const updateLocalStorage = ({ playerAssertions, playerScore }, player) => {
   const localStorageObj = {
     player: {
       name: player.name,
-      assertions: PlayerAssertions,
-      score: PlayerScore,
+      assertions: playerAssertions,
+      score: playerScore,
       gravatarEmail: player.email,
       picture: player.avatar,
     },

@@ -51,7 +51,7 @@ export default class Feedback extends Component {
               flexDirection: 'column',
               alignItems: 'center' } }
           >
-            <Paper elevation="3" sx={ { textAlign: 'center', p: 1, px: 2 } }>
+            <Paper elevation={ 3 } sx={ { textAlign: 'center', p: 1, px: 2 } }>
               <Typography
                 variant="h5"
                 color="text.primary"

@@ -53,7 +53,7 @@ function Settings({ setOpenSettings, sendSettings, openSettings }) {
 
   return (
     <Dialog open={ openSettings }>
-      <DialogTitle dividers id="alert-dialog-title">
+      <DialogTitle id="alert-dialog-title">
         <Grid
           container
           direction="row"
@@ -90,7 +90,6 @@ function Settings({ setOpenSettings, sendSettings, openSettings }) {
           variant="contained"
           type="button"
           onClick={ handleClick }
-          autofocus
           size="medium"
           color="primary"
           sx={ {

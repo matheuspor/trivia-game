@@ -61,7 +61,7 @@ export class QuestionBody extends React.Component {
           flexDirection: 'column',
           alignItems: 'center' } }
       >
-        <Paper elevation="3" sx={ { textAlign: 'center', p: 1 } }>
+        <Paper elevation={ 3 } sx={ { textAlign: 'center', p: 1 } }>
           <Typography sx={ { fontSize: { xs: 18, md: 20 }, fontWeight: 'bold' } }>
             {decodeURIComponent(questions[questionNumber].category)}
           </Typography>
