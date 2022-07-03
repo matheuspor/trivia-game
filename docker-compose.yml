@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  frontend:
+    build:
+      context: ./front-end
+    ports:
+      - 3000:3000
+      # Os `healthcheck` devem garantir que a aplicação
+      # está operacional, antes de liberar o container
+    healthcheck:
+      test: [ "CMD", "lsof", "-t", "-i:3000" ]
+      timeout: 10s
+      retries: 5
