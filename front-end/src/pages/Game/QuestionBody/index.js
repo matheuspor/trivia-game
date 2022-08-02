@@ -10,19 +10,20 @@ export class QuestionBody extends React.Component {
       ...questions[questionNumber].incorrect_answers,
     ].sort();
     return (
-      <Stack spacing={ 2 }>
+      <Stack spacing={2}>
         {allQuestions.map((question, index) => {
-          if (question === questions[questionNumber].correct_answer) {
+          if (question
+            === [questionNumber].correct_answer) {
             return (
               <Button
                 name="correct-answer"
                 variant="outlined"
-                onClick={ handler }
+                onClick={handler}
                 data-testid="correct-answer"
-                disabled={ clicked }
+                disabled={clicked}
                 id="correct"
-                className={ classes.disabledGreen }
-                key={ index }
+                className={classes.disabledGreen}
+                key={index}
               >
                 {decodeURIComponent(question)}
               </Button>
@@ -32,12 +33,12 @@ export class QuestionBody extends React.Component {
             <Button
               variant="outlined"
               type="button"
-              disabled={ clicked }
-              id={ index }
-              className={ classes.disabledRed }
-              key={ index }
-              data-testid={ `wrong-answer-${index}` }
-              onClick={ handler }
+              disabled={clicked}
+              id={index}
+              className={classes.disabledRed}
+              key={index}
+              data-testid={`wrong-answer-${index}`}
+              onClick={handler}
             >
               {decodeURIComponent(question)}
             </Button>
@@ -52,23 +53,24 @@ export class QuestionBody extends React.Component {
     return (
       <Paper
         variant="outlined"
-        sx={ {
+        sx={{
           maxWidth: { xs: '80%' },
           my: { xs: 1, md: 2 },
           p: 2,
           pb: 5,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center' } }
+          alignItems: 'center',
+        }}
       >
-        <Paper elevation={ 3 } sx={ { textAlign: 'center', p: 1 } }>
-          <Typography sx={ { fontSize: { xs: 18, md: 20 }, fontWeight: 'bold' } }>
+        <Paper elevation={3} sx={{ textAlign: 'center', p: 1 }}>
+          <Typography sx={{ fontSize: { xs: 18, md: 20 }, fontWeight: 'bold' }}>
             {decodeURIComponent(questions[questionNumber].category)}
           </Typography>
         </Paper>
         <Typography
           variant="h6"
-          sx={ { py: 3, fontWeight: 'regular', textAlign: 'center' } }
+          sx={{ py: 3, fontWeight: 'regular', textAlign: 'center' }}
           gutterBottom
         >
           {decodeURIComponent(questions[questionNumber].question)}
@@ -76,10 +78,10 @@ export class QuestionBody extends React.Component {
         {this.randomAnswers(questions)}
         {clicked && (
           <Button
-            sx={ { mt: 2 } }
+            sx={{ mt: 2 }}
             variant="contained"
             data-testid="btn-next"
-            onClick={ () => nextButton(questionNumber) }
+            onClick={() => nextButton(questionNumber)}
           >
             Next
           </Button>
@@ -94,7 +96,13 @@ QuestionBody.propTypes = {
     disabledGreen: PropTypes.string,
     disabledRed: PropTypes.string,
   }).isRequired,
-  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.shape({
+    category: PropTypes.string,
+    question: PropTypes.string,
+    difficulty: PropTypes.string,
+    correct_answer: PropTypes.string,
+    incorrect_answers: PropTypes.arrayOf(PropTypes.string),
+  })).isRequired,
   state: PropTypes.shape({
     clicked: PropTypes.bool.isRequired,
     questionNumber: PropTypes.number,

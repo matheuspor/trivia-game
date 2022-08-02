@@ -15,14 +15,14 @@ const INITIAL_STATE = {
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case SET_PLAYER_INFO:
-    return { ...state, player: action.payload };
-  case SET_QUESTIONS:
-    return { ...state, questions: action.payload };
-  case SET_SETTINGS:
-    return { ...state, settings: action.payload };
-  default:
-    return state;
+    case SET_PLAYER_INFO:
+      return { ...state, player: action.payload };
+    case SET_QUESTIONS:
+      return { ...state, questions: action.payload };
+    case SET_SETTINGS:
+      return { ...state, settings: action.payload };
+    default:
+      return state;
   }
 };
 

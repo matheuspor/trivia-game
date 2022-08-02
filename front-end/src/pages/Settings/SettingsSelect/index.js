@@ -6,17 +6,17 @@ export default function SettingsSelect({ name, values, handler }) {
   return (
     <TextField
       defaultValue=""
-      onChange={ handler }
+      onChange={handler}
       select
-      label={ `${name[0].toUpperCase()}${name.substr(1)}` }
-      name={ name }
+      label={`${name[0].toUpperCase()}${name.substr(1)}`}
+      name={name}
     >
       <MenuItem value="All">
         All
       </MenuItem>
       {name === 'category' ? (
         values.map((category) => (
-          <MenuItem key={ category.id } value={ category.name }>
+          <MenuItem key={category.id} value={category.name}>
             {category.name}
           </MenuItem>
         ))
@@ -30,7 +30,7 @@ export default function SettingsSelect({ name, values, handler }) {
                 </MenuItem>
               )
               : (
-                <MenuItem key={ value } value={ value.toLowerCase() }>
+                <MenuItem key={value} value={value.toLowerCase()}>
                   {value}
                 </MenuItem>
               )

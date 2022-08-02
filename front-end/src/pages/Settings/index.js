@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
-import { Button, DialogActions,
-  DialogContent, DialogTitle, Typography, Grid, Stack, Dialog } from '@mui/material';
+import {
+  Button, DialogActions,
+  DialogContent, DialogTitle, Typography, Grid, Stack, Dialog,
+} from '@mui/material';
 import { SettingsOutlined } from '@mui/icons-material';
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
@@ -41,18 +43,20 @@ function Settings({ setOpenSettings, sendSettings, openSettings }) {
     if (name === 'category') {
       const cat = categories
         .find((category) => category.name === value);
-      setSettings({ ...settings,
+      setSettings({
+        ...settings,
         [name]: cat ? cat.id : 'All',
       });
     } else {
-      setSettings({ ...settings,
+      setSettings({
+        ...settings,
         [name]: value,
       });
     }
   }
 
   return (
-    <Dialog open={ openSettings }>
+    <Dialog open={openSettings}>
       <DialogTitle id="alert-dialog-title">
         <Grid
           container
@@ -60,28 +64,28 @@ function Settings({ setOpenSettings, sendSettings, openSettings }) {
           alignItems="center"
           justifyContent="center"
         >
-          <Typography variant="h2" sx={ { fontSize: 42 } }>
+          <Typography variant="h2" sx={{ fontSize: 42 }}>
             Settings
           </Typography>
-          <SettingsOutlined sx={ { fontSize: 50 } } />
+          <SettingsOutlined sx={{ fontSize: 50 }} />
         </Grid>
       </DialogTitle>
       <DialogContent>
-        <Stack spacing={ 3 } sx={ { mt: 1 } }>
+        <Stack spacing={3} sx={{ mt: 1 }}>
           <SettingsSelect
             name="category"
-            values={ categories }
-            handler={ handleChange }
+            values={categories}
+            handler={handleChange}
           />
           <SettingsSelect
             name="difficulty"
-            values={ ['Easy', 'Medium', 'Hard'] }
-            handler={ handleChange }
+            values={['Easy', 'Medium', 'Hard']}
+            handler={handleChange}
           />
           <SettingsSelect
             name="type"
-            values={ ['Multiple', 'True/False'] }
-            handler={ handleChange }
+            values={['Multiple', 'True/False']}
+            handler={handleChange}
           />
         </Stack>
       </DialogContent>
@@ -89,18 +93,18 @@ function Settings({ setOpenSettings, sendSettings, openSettings }) {
         <Button
           variant="contained"
           type="button"
-          onClick={ handleClick }
+          onClick={handleClick}
           size="medium"
           color="primary"
-          sx={ {
+          sx={{
             '&:hover': { backgroundColor: theme.palette.secondary.main },
-          } }
+          }}
         >
           Save
         </Button>
       </DialogActions>
-      <ErrorDialog openError={ openError } setOpenError={ setOpenError } />
-      <BackdropComp open={ openBackdrop } />
+      <ErrorDialog openError={openError} setOpenError={setOpenError} />
+      <BackdropComp open={openBackdrop} />
     </Dialog>
   );
 }

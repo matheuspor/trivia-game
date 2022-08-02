@@ -5,11 +5,12 @@ import React from 'react';
 export default function BackdropComp({ open }) {
   return (
     <Backdrop
-      sx={ { color: '#fff' } }
-      open={ open }
+      sx={{ color: '#fff' }}
+      open={open}
     >
       <CircularProgress color="inherit" />
-    </Backdrop>);
+    </Backdrop>
+  );
 }
 
 BackdropComp.propTypes = {

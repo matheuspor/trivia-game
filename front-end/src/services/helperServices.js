@@ -20,8 +20,14 @@ export const updateRanking = () => {
     picture: playerInfo.player.picture,
   };
 
-  const getRanking = JSON.parse(localStorage.getItem('ranking'));
-  if (getRanking) {
-    localStorage.setItem('ranking', JSON.stringify([...getRanking, player]));
-  } else localStorage.setItem('ranking', JSON.stringify([player]));
+  fetch('http://localhost:3001/api/leaderboard', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(player),
+  });
+
+  // const getRanking = JSON.parse(localStorage.getItem('ranking'));
+  // if (getRanking) {
+  //   localStorage.setItem('ranking', JSON.stringify([...getRanking, player]));
+  // } else localStorage.setItem('ranking', JSON.stringify([player]));
 };

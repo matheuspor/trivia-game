@@ -6,7 +6,7 @@ export default function Footer() {
     <footer>
       <hr />
       <Typography
-        sx={ { mt: 2, pb: 2 } }
+        sx={{ mt: 2, pb: 2 }}
         variant="body2"
         color="text.secondary"
         align="center"

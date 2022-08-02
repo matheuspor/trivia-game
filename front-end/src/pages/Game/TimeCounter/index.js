@@ -10,12 +10,12 @@ export default class TimeCounter extends React.Component {
     const ONE_PERCENT = 3.33;
     return (
       <Box
-        sx={ {
+        sx={{
           position: 'relative', display: 'inline-flex',
-        } }
+        }}
       >
         <Box
-          sx={ {
+          sx={{
             top: 0,
             left: 0,
             bottom: 25,
@@ -24,19 +24,19 @@ export default class TimeCounter extends React.Component {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-          } }
+          }}
         >
-          <TimerTwoTone sx={ { fontSize: 20 } } />
+          <TimerTwoTone sx={{ fontSize: 20 }} />
         </Box>
         <CircularProgress
           variant="determinate"
-          value={ timer * ONE_PERCENT }
-          sx={ { color: '#006600' } }
-          size={ 70 }
-          thickness={ 3 }
+          value={timer * ONE_PERCENT}
+          sx={{ color: '#006600' }}
+          size={70}
+          thickness={3}
         />
         <Box
-          sx={ {
+          sx={{
             top: 22,
             left: 0,
             bottom: 0,
@@ -45,10 +45,10 @@ export default class TimeCounter extends React.Component {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-          } }
+          }}
         >
           <Typography
-            sx={ { fontWeight: 600, fontSize: 26 } }
+            sx={{ fontWeight: 600, fontSize: 26 }}
             variant="h6"
             component="div"
             color="text.secondary"

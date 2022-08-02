@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Stack, Button,
-  TextField, Link, Container } from '@mui/material';
+import {
+  Stack, Button,
+  TextField, Link, Container,
+} from '@mui/material';
 import { withStyles } from '@material-ui/styles';
 import { setPlayerInfo, setPlayerQuestions } from '../../store/actions';
-import { fetchCategories, fetchPlayerToken,
-  fetchQuestions, fetchSetPlayerImg } from '../../services/apiHelper';
+import {
+  fetchCategories, fetchPlayerToken,
+  fetchQuestions, fetchSetPlayerImg,
+} from '../../services/apiHelper';
 import Footer from './Footer/Footer';
 import BackdropComp from '../../components/Backdrop';
 import logo from '../../assets/trivia.png';
@@ -47,7 +51,9 @@ export class LoginPage extends React.Component {
   }
 
   handleSubmit(event) {
-    const { sendQuestions, sendPlayer, settings, history } = this.props;
+    const {
+      sendQuestions, sendPlayer, settings, history,
+    } = this.props;
     const { user } = this.state;
     const token = localStorage.getItem('token');
     event.preventDefault();
@@ -70,45 +76,45 @@ export class LoginPage extends React.Component {
     return (
       <Container component="main" maxWidth="xs">
         <>
-          <BackdropComp open={ openBackdrop } />
+          <BackdropComp open={openBackdrop} />
           <Settings
-            openSettings={ openSettings }
-            setOpenSettings={ (value) => this.setState({ openSettings: value }) }
+            openSettings={openSettings}
+            setOpenSettings={(value) => this.setState({ openSettings: value })}
           />
           {openBackdrop || (
             <Stack
               component="form"
-              onSubmit={ this.handleSubmit }
-              spacing={ 3 }
-              sx={ { my: 4 } }
+              onSubmit={this.handleSubmit}
+              spacing={3}
+              sx={{ my: 4 }}
             >
-              <img src={ logo } className={ classes.logo } alt="logo" />
+              <img src={logo} className={classes.logo} alt="logo" />
               <TextField
                 name="name"
                 type="text"
                 label="Name:"
-                value={ user.name }
+                value={user.name}
                 autoComplete="name"
-                onChange={ this.handleChange }
+                onChange={this.handleChange}
                 required
               />
               <TextField
                 name="email"
                 type="email"
                 label="Gravatar email:"
-                value={ user.email }
+                value={user.email}
                 autoComplete="email"
-                onChange={ this.handleChange }
-                helperText={
+                onChange={this.handleChange}
+                helperText={(
                   <Link href="https://en.gravatar.com/" target="_blank" underline="always">
                     Gravatar
                   </Link>
-                }
+                )}
               />
               <Button
                 type="submit"
                 fullWidth
-                disabled={ !user.name }
+                disabled={!user.name}
                 variant="contained"
                 color="primary"
               >
@@ -119,7 +125,7 @@ export class LoginPage extends React.Component {
                 fullWidth
                 variant="contained"
                 color="secondary"
-                onClick={ () => this.setState({ openSettings: true }) }
+                onClick={() => this.setState({ openSettings: true })}
               >
                 Settings
               </Button>

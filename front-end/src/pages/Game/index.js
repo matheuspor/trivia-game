@@ -1,4 +1,6 @@
-import { Container, Typography, Avatar, Stack } from '@mui/material';
+import {
+  Container, Typography, Avatar, Stack,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withStyles } from '@material-ui/styles';
@@ -30,8 +32,26 @@ export class Game extends React.Component {
     this.setTimer();
   }
 
-  componentWillUnmount() {
+  async componentWillUnmount() {
     updateRanking();
+  }
+
+  setTimer() {
+    this.setState({ timer: 30 });
+    const countdown = setInterval(() => {
+      this.setState(
+        (prevState) => ({
+          timer: prevState.timer - 1,
+        }),
+        () => {
+          const { timer, clicked } = this.state;
+          if (timer <= 0 || clicked) {
+            clearInterval(countdown);
+            this.setState({ clicked: true });
+          }
+        },
+      );
+    }, ONE_SECOND);
   }
 
   handleClick({ target }) {
@@ -54,24 +74,6 @@ export class Game extends React.Component {
         playerAssertions: prevstate.playerAssertions + 1,
       }));
     }
-  }
-
-  setTimer() {
-    this.setState({ timer: 30 });
-    const countdown = setInterval(() => {
-      this.setState(
-        (prevState) => ({
-          timer: prevState.timer - 1,
-        }),
-        () => {
-          const { timer, clicked } = this.state;
-          if (timer <= 0 || clicked) {
-            clearInterval(countdown);
-            this.setState({ clicked: true });
-          }
-        },
-      );
-    }, ONE_SECOND);
   }
 
   nextButton(questionNumber) {
@@ -97,16 +99,16 @@ export class Game extends React.Component {
     const { timer, questionNumber, playerScore } = this.state;
 
     return (
-      <Container component="main" maxWidth="md" sx={ { pb: 5 } }>
+      <Container component="main" maxWidth="md" sx={{ pb: 5 }}>
         <Stack
-          sx={ {
+          sx={{
             my: 4,
             alignItems: 'center',
-          } }
+          }}
         >
           <Avatar
-            sx={ { height: 60, width: 60 } }
-            src={ player.avatar }
+            sx={{ height: 60, width: 60 }}
+            src={player.avatar}
             alt="Player Image Avatar"
           />
           <Typography variant="h6">
@@ -114,31 +116,33 @@ export class Game extends React.Component {
           </Typography>
           <Typography
             variant="h6"
-            sx={ { fontWeight: 'regular' } }
+            sx={{ fontWeight: 'regular' }}
           >
             {`${playerScore} Points`}
           </Typography>
-          <TimeCounter timer={ timer } />
+          <TimeCounter timer={timer} />
           <QuestionBody
-            state={ this.state }
-            questions={ questions }
-            classes={ classes }
-            handler={ this.handleClick }
-            nextButton={ this.nextButton }
+            state={this.state}
+            questions={questions}
+            classes={classes}
+            handler={this.handleClick}
+            nextButton={this.nextButton}
           />
         </Stack>
         <hr
-          style={ {
+          style={{
             color: '#000000',
             backgroundColor: '#000000',
             width: '80%',
             borderColor: '#000000',
-          } }
+          }}
         />
         <Typography
           variant="h6"
           component="div"
-          sx={ { pt: 2, pb: 4, fontWeight: 'regular', textAlign: 'center' } }
+          sx={{
+            pt: 2, pb: 4, fontWeight: 'regular', textAlign: 'center',
+          }}
           gutterBottom
         >
           {`${questionNumber + 1}/5`}
@@ -161,7 +165,13 @@ Game.propTypes = {
     email: PropTypes.string,
     name: PropTypes.string,
   }).isRequired,
-  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.shape({
+    category: PropTypes.string,
+    question: PropTypes.string,
+    difficulty: PropTypes.string,
+    correct_answer: PropTypes.string,
+    incorrect_answers: PropTypes.arrayOf(PropTypes.string),
+  })).isRequired,
 };
 
 const mapStateToProps = ({ user: { player, questions } }) => ({
